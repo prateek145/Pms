@@ -590,8 +590,7 @@
                                                     <td>{{$item->created_at->format('d-m-y')}}</td>
                                                     <td>{{date('H:i:s', strtotime($item->start_time))}}</td>
                                                     <td>{{date('H:i:s', strtotime($item->end_time))}}</td>
-                                                    {{-- {{dd($item->duration)}} --}}
-                                                    <td>{{second_hours($item->duration)}}</td>
+                                                    <td>{{gmdate("H:i:s", $item->duration)}}</td>
                                                     <td>{{$item->timelagged_user->name}}</td>
                                                 </tr>
                                                     

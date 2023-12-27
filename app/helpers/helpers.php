@@ -2,8 +2,7 @@
 
 function second_hours($sec)
 {
-    $value = \Carbon\Carbon::parse($sec)->format('H:i:s');
-    // dd($value);
+    $value = gmdate("H:i:s", $sec);
     return $value;
 
 }

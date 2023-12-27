@@ -243,10 +243,10 @@ class TaskController extends Controller
                     # code...
                     $secondes += $value;
                 }
-                // dd($secondes);
                 $totalduration = second_hours($secondes);
                 $count1 = 1;
             }
+                // dd($secondes, $totalduration);
 
 
             // dd('prateek');
