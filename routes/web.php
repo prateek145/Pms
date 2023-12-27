@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('availablity', AvailablityController::class);
     Route::resource('timesheet', TimeSheetController::class);
     Route::resource('timelagged', TimeLaggedController::class);
+    Route::post('check/timelagged', [TimeLaggedController::class, 'check_timelagged'])->name('check.timelagged');
 });
 
 

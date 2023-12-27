@@ -31,6 +31,8 @@
     <!-- Template Main CSS File -->
     <link href="{{asset('public/backend/assets/css/style.css')}}" rel="stylesheet">
    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     <!-- =======================================================
   * Template Name: NiceAdmin
   * Updated: Sep 18 2023 with Bootstrap v5.3.2
@@ -55,7 +57,6 @@
 
     <!-- Vendor JS Files -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{{asset('public/backend/assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
     <script src="{{asset('public/backend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('public/backend/assets/vendor/chart.js/chart.umd.js')}}"></script>

@@ -54,7 +54,7 @@
                                                         {{ $item->name }}
                                                     </option>
                                                 @endforeach
-    
+
                                             </select>
                                             @error('project')
                                                 <span class="invalid-feedback" role="alert">
@@ -62,7 +62,7 @@
                                                 </span>
                                             @enderror
                                         </div>
- 
+
                                     </div>
 
                                     <div class="row">
@@ -114,7 +114,7 @@
                                                 </span>
                                             @enderror
                                         </div>
-                     
+
                                     </div>
 
                                     <div class="row">
@@ -136,27 +136,28 @@
                                             <!--SHOW IF Recurring-->
                                             <label for="inputNanme4" class="form-label">Date Selection</label>
                                             @if ($task->schedule == 'recurring')
-                                            <div class="datebox">
-                                                <div>
-                                                    <input type="date" id="date" onchange="adddates(this.value)"
-                                                        class="form-control" />
+                                                <div class="datebox">
+                                                    <div>
+                                                        <input type="date" id="date" onchange="adddates(this.value)"
+                                                            class="form-control" />
+                                                    </div>
+
+                                                    <div style="width:100%">
+                                                        <select name="dates[]" id="dates" size="5"
+                                                            class="form-control @error('dates') is-invalid @enderror"
+                                                            multiple>
+                                                            @foreach (json_decode($task->dates) as $item)
+                                                                <option value="{{ $item }}" selected>
+                                                                    {{ $item }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    @error('dates')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
                                                 </div>
-    
-                                                <div style="width:100%">
-                                                    <select name="dates[]" id="dates" size="5"
-                                                        class="form-control @error('dates') is-invalid @enderror" multiple>
-                                                        @foreach (json_decode($task->dates) as $item)
-                                                            <option value="{{$item}}" selected>{{$item}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                @error('dates')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                                
                                             @endif
                                         </div>
 
@@ -165,7 +166,8 @@
                                             <label for="inputNanme4" class="form-label">Start Time</label>
                                             <input type="time"
                                                 class="form-control @error('start_time') is-invalid @enderror"
-                                                name="start_time" min="10:00:00" max="19:00:00" value="{{ $task->start_time ?? '' }}" />
+                                                name="start_time" min="10:00:00" max="19:00:00"
+                                                value="{{ $task->start_time ?? '' }}" />
 
                                             @error('start_time')
                                                 <span class="invalid-feedback" role="alert">
@@ -179,7 +181,8 @@
                                             <label for="inputNanme4" class="form-label">End Time</label>
                                             <input type="time"
                                                 class="form-control @error('end_time') is-invalid @enderror"
-                                                name="end_time" min="10:00:00" max="19:00:00" value="{{ $task->end_time ?? '' }}" />
+                                                name="end_time" min="10:00:00" max="19:00:00"
+                                                value="{{ $task->end_time ?? '' }}" />
 
                                             @error('end_time')
                                                 <span class="invalid-feedback" role="alert">
@@ -519,11 +522,12 @@
                                     </div>
 
                                     <div class="container col-12 col-lg-6">
-                                        <div id="buttons" class="mt-5">
+                                        <div id="buttons" class="mt-5 d-flex">
                                             <button type="button" class="btn btn-success start_btn" id="start"><i
-                                                    class="bi bi-play-circle" onclick="create_logged({{ $task->id }})"></i></button>
-                                            </button> <button type="button" id="stop" class="btn btn-warning stop_btn"><i
-                                                    class="bi bi-pause"
+                                                    class="bi bi-play-circle"
+                                                    onclick="create_logged({{ $task->id }})"></i></button>
+                                            </button> <button type="button" id="stop"
+                                                class="btn btn-warning stop_btn"><i class="bi bi-pause"
                                                     onclick="update_logged({{ $task->id }})"></i></button>
                                             {{-- <button type="button" class="btn btn-info" id="reset"><i
                                                     class="bi bi-bootstrap-reboot"></i></button> --}}
@@ -571,7 +575,7 @@
                                 </div>
                                 <div class="card info-card sales-card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Time Logged {{$totalduration}}</h5>
+                                        <h5 class="card-title">Time Logged {{ $totalduration }}</h5>
                                         <table class="table datatable">
                                             <thead>
                                                 <tr>
@@ -585,15 +589,15 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($taskloggeds as $item)
-                                                <tr>
-                                                    <td>{{$count1++}}</td>
-                                                    <td>{{$item->created_at->format('d-m-y')}}</td>
-                                                    <td>{{date('H:i:s', strtotime($item->start_time))}}</td>
-                                                    <td>{{date('H:i:s', strtotime($item->end_time))}}</td>
-                                                    <td>{{gmdate("H:i:s", $item->duration)}}</td>
-                                                    <td>{{$item->timelagged_user->name}}</td>
-                                                </tr>
-                                                    
+                                                    <tr>
+                                                        <td>{{ $count1++ }}</td>
+                                                        <td>{{ $item->created_at->format('d-m-y') }}</td>
+                                                        <td>{{ date('H:i:s', strtotime($item->start_time)) }}</td>
+                                                        <td>{{ $item->end_time == "" ? "" : date('H:i:s', strtotime($item->end_time))  }}</td>
+                                                      
+                                                        <td>{{ $item->duration == "" ? "" : gmdate('H:i:s', $item->duration) }}</td>
+                                                        <td>{{ $item->timelagged_user->name }}</td>
+                                                    </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
@@ -610,20 +614,20 @@
     </main><!-- End #main -->
     <script>
         var schedule = "{{ $task->schedule }}";
-        var authrole = "{{auth()->user()->role}}";
-        
-        // console.log(schedule);
-        if (schedule == 'recurring'  && authrole == 'admin') {
+        var authrole = "{{ auth()->user()->role }}";
+        var authuser = "{{ auth()->user() }}";
+        var taskid = "{{ $task->id }}";
+        if (schedule == 'recurring' && authrole == 'admin') {
             document.getElementsByName('end_date')[0].style.display = 'block';
             document.getElementsByClassName('datebox')[0].style.display = 'block';
             var dateboxes = document.getElementsByClassName('datebox')[0];
 
-        } 
-        if(schedule == 'one_time'  && authrole == 'admin') {
+        }
+        if (schedule == 'one_time' && authrole == 'admin') {
             document.getElementsByName('end_date')[0].style.display = 'none';
             document.getElementsByName('end_date')[0].value = "";
-            document.getElementsByClassName('datebox')[0].style.display = 'none';
-            document.getElementsByName('dates[]')[0].innerHTML = "";
+            // document.getElementsByClassName('datebox')[0].style.display = 'none';
+            // document.getElementsByName('dates[]')[0].innerHTML = "";
 
         }
 
@@ -670,19 +674,47 @@
         }
 
         function update_logged(id) {
+            // alert('alkjndslansd');
             var tasklagged_id = document.getElementsByName('tasklagged_id')[0].value;
             $.ajax({
-                url: "{{ route('timelagged.update',1 ) }}",
+                url: "{{ route('timelagged.update', 1) }}",
                 method: "put",
                 data: {
                     '_token': "{{ csrf_token() }}",
                     "task_id": id,
-                    "tasklagged_id":tasklagged_id
+                    "tasklagged_id": tasklagged_id
                 },
                 success: function(response) {
                     if (response.result == 'success') {
                         document.getElementsByClassName('stop_btn')[0].style.display = 'none';
                         location.reload();
+                    }
+
+                }
+            });
+        }
+
+        // console.log(authuser, 'prateek');
+        if (authrole != 'admin') {
+            $.ajax({
+                url: "{{ route('check.timelagged') }}",
+                method: "POST",
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    "task_id": taskid
+                },
+                success: function(response) {
+                    if (response.result == 'success') {
+                        console.log(response.show);
+                        if (response.show == false) {
+                            document.getElementsByClassName('start_btn')[0].style.display = 'block';
+
+                        }
+
+                        if (response.show == true) {
+                            document.getElementsByClassName('start_btn')[0].style.display = 'none';
+
+                        }
                     }
 
                 }

@@ -108,4 +108,22 @@ class TimeLaggedController extends Controller
     {
         //
     }
+
+    public function check_timelagged(Request $request){
+        try {
+            $timelagged = TimeLagged::where('created_by', auth()->id())->where('task_id', $request->task_id)->get()->last();
+            if ($timelagged->end_time == "") {
+                # code...
+                $show = true;
+            } else {
+                # code...
+                $show = false;
+            }
+            
+            return response()->json(['result'=>'success', 'show' => $show]);
+
+        } catch (\Exception $e) {
+            return redirect()->json(['result'=>$e->getMessage()]);
+        }
+    }
 }
