@@ -10,8 +10,8 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="{{ asset('public/backend/assets/img/favicon.png')}}" rel="icon">
+    <link href="{{ asset('public/backend/assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -70,7 +70,7 @@
 
                             <div class="d-flex justify-content-center py-4">
                                 <a href="#" class="logo d-flex align-items-center w-auto">
-                                    <img src="assets/img/logo.png" alt="">
+                                    <img src="{{ asset('public/backend/assets/img/logo.png') }}" alt="">
                                     <span class="d-none d-lg-block">Project Management</span>
                                 </a>
                             </div><!-- End Logo -->

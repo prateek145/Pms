@@ -520,13 +520,13 @@
 
                                     <div class="container col-12 col-lg-6">
                                         <div id="buttons" class="mt-5">
-                                            <button type="button" class="btn btn-success" id="start"><i
+                                            <button type="button" class="btn btn-success start_btn" id="start"><i
                                                     class="bi bi-play-circle" onclick="create_logged({{ $task->id }})"></i></button>
-                                            </button> <button type="button" id="stop" class="btn btn-warning"><i
+                                            </button> <button type="button" id="stop" class="btn btn-warning stop_btn"><i
                                                     class="bi bi-pause"
                                                     onclick="update_logged({{ $task->id }})"></i></button>
-                                            <button type="button" class="btn btn-info" id="reset"><i
-                                                    class="bi bi-bootstrap-reboot"></i></button>
+                                            {{-- <button type="button" class="btn btn-info" id="reset"><i
+                                                    class="bi bi-bootstrap-reboot"></i></button> --}}
                                             <input type="hidden" name="tasklagged_id">
                                         </div>
                                     </div>
@@ -659,8 +659,11 @@
                     "task_id": id
                 },
                 success: function(response) {
-                    console.log(response);
-                    document.getElementsByName('tasklagged_id')[0].value = response.tasklagged_id
+                    // console.log(response);
+                    if (response.result == 'success') {
+                        document.getElementsByClassName('start_btn')[0].style.display = 'none';
+                        document.getElementsByName('tasklagged_id')[0].value = response.tasklagged_id
+                    }
 
                 }
             });
@@ -678,6 +681,7 @@
                 },
                 success: function(response) {
                     if (response.result == 'success') {
+                        document.getElementsByClassName('stop_btn')[0].style.display = 'none';
                         location.reload();
                     }
 

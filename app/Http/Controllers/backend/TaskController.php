@@ -33,15 +33,17 @@ class TaskController extends Controller
             if (auth()->user()->role == 'admin') {
                 # code...
                 $tasks = Task::latest()->get();
-                $projects = Project::latest()->get();
                 $users = User::where('role', '!=', 'admin')->get();
+                $projects = Project::latest()->get();
                 $count = 1;
                 return view('backend.tasks.create', compact('tasks', 'count', 'users', 'projects'));
             } else {
                 # code...
+                $projects = Project::latest()->get();
                 $tasks = Task::where('allocated_user', auth()->id())->latest()->get();
+                $users = User::where('role', '!=', 'admin')->where('id', auth()->id())->get();
                 $count = 1;
-                return view('backend.tasks.create', compact('tasks', 'count'));
+                return view('backend.tasks.create', compact('tasks', 'count', 'projects', 'users'));
             }
         } catch (\Exception $e) {
             return redirect()
