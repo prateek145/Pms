@@ -27,11 +27,15 @@
                               <i class="bi bi-circle"></i><span>Clients</span>
                           </a>
                       </li>
+
+
+                      <li>
+                          <a href="{{ route('departments.create') }}">
+                              <i class="bi bi-circle"></i><span>Department</span>
+                          </a>
+                      </li>
                   @endif
 
-                  @if (auth()->user()->role == 'admin')
-                  @else
-                  @endif
                   <li>
                       <a href="{{ route('projects.create') }}">
                           <i class="bi bi-circle"></i><span>Projects</span>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\backend\AvailablityController;
 use App\Http\Controllers\backend\ClientController;
+use App\Http\Controllers\backend\DepartmentController;
 use App\Http\Controllers\backend\ProjectController;
 use App\Http\Controllers\backend\TaskController;
 use App\Http\Controllers\backend\TimeLaggedController;
@@ -33,6 +34,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', UserController::class);
     Route::resource('clients', ClientController::class);
     Route::resource('projects', ProjectController::class);
+    Route::resource('departments', DepartmentController::class);
+    Route::post('client_details', [DepartmentController::class, 'client_details'])->name('client.details');
+
     Route::get('projects/{id}/{key}', [ProjectController::class, 'images_delete']);
     Route::resource('tasks', TaskController::class);
     Route::get('tasks/{id}/{key}', [TaskController::class, 'images_delete']);
