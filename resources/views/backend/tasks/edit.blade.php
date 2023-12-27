@@ -617,6 +617,36 @@
         var authrole = "{{ auth()->user()->role }}";
         var authuser = "{{ auth()->user() }}";
         var taskid = "{{ $task->id }}";
+                // console.log(authuser, 'prateek');
+                if (authrole != 'admin') {
+            $.ajax({
+                url: "{{ route('check.timelagged') }}",
+                method: "POST",
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    "task_id": taskid
+                },
+                success: function(response) {
+                    if (response.result == 'success') {
+                        console.log(response.show);
+                        if (response.show == false) {
+                            document.getElementsByClassName('start_btn')[0].style.display = 'block';
+                            document.getElementsByClassName('stop_btn')[0].style.display = 'none';
+
+                        }
+
+                        if (response.show == true) {
+                            document.getElementsByClassName('start_btn')[0].style.display = 'none';
+                            document.getElementsByClassName('stop_btn')[0].style.display = 'block';
+
+
+                        }
+                    }
+
+                }
+            });
+        }
+        
         if (schedule == 'recurring' && authrole == 'admin') {
             document.getElementsByName('end_date')[0].style.display = 'block';
             document.getElementsByClassName('datebox')[0].style.display = 'block';
@@ -666,6 +696,8 @@
                     // console.log(response);
                     if (response.result == 'success') {
                         document.getElementsByClassName('start_btn')[0].style.display = 'none';
+                        document.getElementsByClassName('stop_btn')[0].style.display = 'block';
+
                         document.getElementsByName('tasklagged_id')[0].value = response.tasklagged_id
                     }
 
@@ -694,31 +726,6 @@
             });
         }
 
-        // console.log(authuser, 'prateek');
-        if (authrole != 'admin') {
-            $.ajax({
-                url: "{{ route('check.timelagged') }}",
-                method: "POST",
-                data: {
-                    '_token': "{{ csrf_token() }}",
-                    "task_id": taskid
-                },
-                success: function(response) {
-                    if (response.result == 'success') {
-                        console.log(response.show);
-                        if (response.show == false) {
-                            document.getElementsByClassName('start_btn')[0].style.display = 'block';
 
-                        }
-
-                        if (response.show == true) {
-                            document.getElementsByClassName('start_btn')[0].style.display = 'none';
-
-                        }
-                    }
-
-                }
-            });
-        }
     </script>
 @endsection
