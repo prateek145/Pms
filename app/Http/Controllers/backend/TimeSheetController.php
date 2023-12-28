@@ -96,9 +96,11 @@ class TimeSheetController extends Controller
                 
                 
             }
+            $selected_user = $request->user_id;
+            $selected_date = $request->start_date;
             // dd($value, $assign_task_time, $time_taken);
 
-            return view('backend.timesheet.index', compact('users', 'timelagged', 'start_date', 'end_date', 'daterange_array', 'assign_task_time', 'time_taken'));
+            return view('backend.timesheet.index', compact('users', 'timelagged', 'start_date', 'end_date', 'daterange_array', 'assign_task_time', 'time_taken', 'selected_user', 'selected_date'));
         } catch (\Exception $e) {
             return redirect()
                 ->back()

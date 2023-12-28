@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\backend\Department;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -28,8 +29,9 @@ class UserController extends Controller
         try {
             $users = User::where('role','!=', 'admin')->latest()->get();
             // dd($users);
+            $departments = Department::where('status', 1)->latest()->get();
             $count = 1;
-            return view('backend.users.create', compact('users', 'count'));
+            return view('backend.users.create', compact('users', 'count', 'departments'));
         } catch (\Exception $e) {
             return redirect()
                 ->back()
@@ -47,8 +49,8 @@ class UserController extends Controller
     {
 
         $rules = [
-            'name' => 'required',
-            'email' => 'required',
+            'name' => 'required|unique:users',
+            'email' => 'required|unique:users',
             'phone' => 'required|min:10|numeric',
             'status' => 'required',
             'department' => 'required',
@@ -111,8 +113,8 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $rules = [
-            'name' => 'required',
-            'email' => 'required',
+            'name' => 'required|unique:users,name,' . $id .  "'",
+            'email' => 'required|unique:users,email,' . $id .  "'",
             'phone' => 'required|min:10|numeric',
             'status' => 'required',
             'department' => 'required',

@@ -10,8 +10,8 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="{{asset('public/backend/assets/img/favicon.png')}}" rel="icon">
-    <link href="{{asset('public/backend/assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+    <link href="{{ asset('public/backend/assets/img/favicon.png') }}" rel="icon">
+    <link href="{{ asset('public/backend/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -20,18 +20,18 @@
         rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="{{asset('public/backend/assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{asset('public/backend/assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
-    <link href="{{asset('public/backend/assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
-    <link href="{{asset('public/backend/assets/vendor/quill/quill.snow.css')}}" rel="stylesheet">
-    <link href="{{asset('public/backend/assets/vendor/quill/quill.bubble.css')}}" rel="stylesheet">
-    <link href="{{asset('public/backend/assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
-    <link href="{{asset('public/backend/assets/vendor/simple-datatables/style.css')}}" rel="stylesheet">
+    <link href="{{ asset('public/backend/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/backend/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/backend/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/backend/assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/backend/assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/backend/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/backend/assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="{{asset('public/backend/assets/css/style.css')}}" rel="stylesheet">
-   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="{{ asset('public/backend/assets/css/style.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <!-- =======================================================
   * Template Name: NiceAdmin
@@ -57,17 +57,21 @@
 
     <!-- Vendor JS Files -->
 
-    <script src="{{asset('public/backend/assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
-    <script src="{{asset('public/backend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{asset('public/backend/assets/vendor/chart.js/chart.umd.js')}}"></script>
-    <script src="{{asset('public/backend/assets/vendor/echarts/echarts.min.js')}}"></script>
-    <script src="{{asset('public/backend/assets/vendor/quill/quill.min.js')}}"></script>
-    <script src="{{asset('public/backend/assets/vendor/simple-datatables/simple-datatables.js')}}"></script>
-    <script src="{{asset('public/backend/assets/vendor/tinymce/tinymce.min.js')}}"></script>
-    <script src="{{asset('public/backend/assets/vendor/php-email-form/validate.js')}}"></script>
+    <script src="{{ asset('public/backend/assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('public/backend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('public/backend/assets/vendor/chart.js/chart.umd.js') }}"></script>
+    <script src="{{ asset('public/backend/assets/vendor/echarts/echarts.min.js') }}"></script>
+    <script src="{{ asset('public/backend/assets/vendor/quill/quill.min.js') }}"></script>
+    <script src="{{ asset('public/backend/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="{{ asset('public/backend/assets/vendor/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('public/backend/assets/vendor/php-email-form/validate.js') }}"></script>
 
     <!-- Template Main JS File -->
-    <script src="{{asset('public/backend/assets/js/main.js')}}"></script>
+    <script src="{{ asset('public/backend/assets/js/main.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('editor1');
+    </script>
 
 </body>
 

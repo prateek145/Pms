@@ -73,7 +73,7 @@ class ProjectController extends Controller
             'end_date' => 'required|date',
             'phase' => 'required',
             'status' => 'required',
-            'file' => 'required',
+            // 'file' => 'required',
             'comment' => 'required',
         ];
 

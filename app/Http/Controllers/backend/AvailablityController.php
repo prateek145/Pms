@@ -70,9 +70,11 @@ class AvailablityController extends Controller
             $busy_time = ($diffrence/480) * 100;
             $free_time = 100 - $busy_time;
 
-            // dd($busy_time, $free_time, $diffrence);
+            $selected_user = $request->user_id;
+            $selected_date = $request->date;
+            // dd($selected_user, $selected_date, $diffrence);
             
-            return view('backend.availablity.index', compact( 'users', 'data', 'busy_time', 'free_time', 'data1' ));
+            return view('backend.availablity.index', compact( 'users', 'data', 'busy_time', 'free_time', 'data1', 'selected_user', 'selected_date' ));
             
         } catch (\Exception $e) {
             return redirect()

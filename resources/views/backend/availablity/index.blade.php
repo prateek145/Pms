@@ -23,13 +23,13 @@
                                     <label for="inputNanme4" class="form-label">Users</label>
                                     <select class="form-control form-select" name="user_id">
                                         @foreach ($users as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}" {{isset($selected_user) == true ? $selected_user == $item->id ? 'selected' : '' : ''}}>{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-12 col-lg-2">
                                     <label for="inputNanme4" class="form-label">Date</label>
-                                    <input type="date" class="form-control" name="date" required />
+                                    <input type="date" class="form-control" name="date" value="{{$value = $selected_date ?? ""}}" required />
                                 </div>
 
                                 {{-- <div class="col-12 col-lg-2">

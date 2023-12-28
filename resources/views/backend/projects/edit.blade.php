@@ -179,11 +179,10 @@
                                                 Here</a>
 
                                             @if (auth()->user()->role == 'admin')
-                                            <a href="{{ url('projects/' . $project->id . '/' . $key) }}">
-                                                <input type="button" class="btn btn-danger btn-sm" value="X"
-                                                    onclick="return confirm('Are You Sure ?')">
-                                            </a>
-                                                
+                                                <a href="{{ url('projects/' . $project->id . '/' . $key) }}">
+                                                    <input type="button" class="btn btn-danger btn-sm" value="X"
+                                                        onclick="return confirm('Are You Sure ?')">
+                                                </a>
                                             @endif
 
 
@@ -201,7 +200,7 @@
                                 </div>
                                 <div class="col-12">
                                     <label for="phone" class="form-label">Scope & Comment</label>
-                                    <textarea class="form-control @error('comment') is-invalid @enderror form-text" name="comment">{{ $project->comment ?? '' }}</textarea>
+                                    <textarea class="form-control @error('comment') is-invalid @enderror form-text" name="comment" id="editor1">{{ $project->comment ?? '' }}</textarea>
                                     @error('comment')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -210,10 +209,10 @@
                                 </div>
 
                                 @if (auth()->user()->role == 'admin')
-                                <div class="text-center">
-                                    <input type="submit" onclick="submitform()" class="btn btn-primary" value="Submit">
-                                </div>
-                                    
+                                    <div class="text-center">
+                                        <input type="submit" onclick="submitform()" class="btn btn-primary"
+                                            value="Submit">
+                                    </div>
                                 @endif
                             </form>
                         </div>

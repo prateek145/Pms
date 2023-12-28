@@ -162,7 +162,7 @@
                                 </div>
                                 <div class="col-12">
                                     <label for="phone" class="form-label">Scope & Comment</label>
-                                    <textarea class="form-control @error('comment') is-invalid @enderror form-text" name="comment"></textarea>
+                                    <textarea class="form-control @error('comment') is-invalid @enderror form-text" name="comment" id="editor1"></textarea>
                                     @error('comment')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

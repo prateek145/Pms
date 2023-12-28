@@ -263,7 +263,7 @@
                                     <div class="col-12 col-lg-12">
                                         <label for="phone" class="form-label">Task Description</label>
                                         <!-- Quill Editor Full -->
-                                        <textarea class="form-control @error('description') is-invalid @enderror" name="description">{{ $task->description }}</textarea>
+                                        <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="editor1">{{ $task->description }}</textarea>
                                     </div>
                                     <!-- End Quill Editor Full -->
                                     <input type="submit" value="Submit" class="btn btn-primary mt-5">
@@ -513,7 +513,7 @@
                                     </div>
                                     <div class="col-12 col-lg-12">
                                         <label for="inputEmail4" class="form-label">Task Comments</label>
-                                        <textarea class="form-control @error('comment') is-invalid @enderror" name="comment"></textarea>
+                                        <textarea class="form-control @error('comment') is-invalid @enderror" name="comment" id="editor1"></textarea>
                                     </div>
                                     <div class="col-12 col-lg-6">
                                         <div class="text-start">
@@ -525,10 +525,10 @@
                                         <div id="buttons" class="mt-5 d-flex">
                                             <button type="button" class="btn btn-success start_btn" id="start"><i
                                                     class="bi bi-play-circle"
-                                                    onclick="create_logged({{ $task->id }})"></i></button>
+                                                    onclick="create_logged({{ $task->id }})"></i> Start</button>
                                             </button> <button type="button" id="stop"
                                                 class="btn btn-warning stop_btn"><i class="bi bi-pause"
-                                                    onclick="update_logged({{ $task->id }})"></i></button>
+                                                    onclick="update_logged({{ $task->id }})"></i> Stop</button>
                                             {{-- <button type="button" class="btn btn-info" id="reset"><i
                                                     class="bi bi-bootstrap-reboot"></i></button> --}}
                                             <input type="hidden" name="tasklagged_id">
@@ -536,74 +536,80 @@
                                     </div>
 
                                 </form>
-
-                                <div class="card info-card sales-card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Task Files</h5>
-                                        <table class="table datatable">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">File</th>
-                                                    <th scope="col">Upload Date</th>
-                                                    <th scope="col">Upload By</th>
-                                                    <th scope="col">Comment</th>
-                                                    <th scope="col">Previous Status</th>
-                                                    <th scope="col">Current Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($taskfiles as $item)
-                                                    <tr>
-                                                        <td>{{ $count++ }}</td>
-                                                        <td>
-                                                            @foreach (json_decode($item->file) as $item1)
-                                                                <a href="{{ asset('public/uploads/taskfiles/' . $item1) }}"
-                                                                    target="_blank">Attachment</a>
-                                                            @endforeach
-                                                        </td>
-                                                        <td>{{ $item->created_at->format('d-m-y') }}</td>
-                                                        <td>{{ $item->taskfile_user->name }}</td>
-                                                        <td>{{ $item->comment }}</td>
-                                                        <td>{{ $item->previous_status }}</td>
-                                                        <td>{{ $item->current_status }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="card info-card sales-card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Time Logged {{ $totalduration }}</h5>
-                                        <table class="table datatable">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Date</th>
-                                                    <th scope="col">Start Time</th>
-                                                    <th scope="col">End Time</th>
-                                                    <th scope="col">Duration</th>
-                                                    <th scope="col">User</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($taskloggeds as $item)
-                                                    <tr>
-                                                        <td>{{ $count1++ }}</td>
-                                                        <td>{{ $item->created_at->format('d-m-y') }}</td>
-                                                        <td>{{ date('H:i:s', strtotime($item->start_time)) }}</td>
-                                                        <td>{{ $item->end_time == "" ? "" : date('H:i:s', strtotime($item->end_time))  }}</td>
-                                                      
-                                                        <td>{{ $item->duration == "" ? "" : gmdate('H:i:s', $item->duration) }}</td>
-                                                        <td>{{ $item->timelagged_user->name }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
                             @endif
+                            <div class="card info-card sales-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Task Files</h5>
+                                    <table class="table datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">File</th>
+                                                <th scope="col">Upload Date</th>
+                                                <th scope="col">Upload By</th>
+                                                <th scope="col">Comment</th>
+                                                <th scope="col">Previous Status</th>
+                                                <th scope="col">Current Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($taskfiles as $item)
+                                                <tr>
+                                                    <td>{{ $count++ }}</td>
+                                                    @if (isset($item->file))
+                                                    <td>
+                                                        @foreach (json_decode($item->file) as $item1)
+                                                            <a href="{{ asset('public/uploads/taskfiles/' . $item1) }}"
+                                                                target="_blank">Attachment</a>
+                                                        @endforeach
+                                                    </td>
+                                                        
+                                                    @else
+                                                    <td>No Attachment</td>
+                                                    @endif
+                                                    <td>{{ $item->created_at->format('d-m-y') }}</td>
+                                                    <td>{{ $item->taskfile_user->name }}</td>
+                                                    <td>{{ $item->comment }}</td>
+                                                    <td>{{ $item->previous_status }}</td>
+                                                    <td>{{ $item->current_status }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card info-card sales-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Time Logged {{ $totalduration }}</h5>
+                                    <table class="table datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Start Time</th>
+                                                <th scope="col">End Time</th>
+                                                <th scope="col">Duration</th>
+                                                <th scope="col">User</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($taskloggeds as $item)
+                                                <tr>
+                                                    <td>{{ $count1++ }}</td>
+                                                    <td>{{ $item->created_at->format('d-m-y') }}</td>
+                                                    <td>{{ date('H:i:s', strtotime($item->start_time)) }}</td>
+                                                    <td>{{ $item->end_time == '' ? '' : date('H:i:s', strtotime($item->end_time)) }}
+                                                    </td>
+
+                                                    <td>{{ $item->duration == '' ? '' : gmdate('H:i:s', $item->duration) }}
+                                                    </td>
+                                                    <td>{{ $item->timelagged_user->name }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -617,8 +623,8 @@
         var authrole = "{{ auth()->user()->role }}";
         var authuser = "{{ auth()->user() }}";
         var taskid = "{{ $task->id }}";
-                // console.log(authuser, 'prateek');
-                if (authrole != 'admin') {
+        // console.log(authuser, 'prateek');
+        if (authrole != 'admin') {
             $.ajax({
                 url: "{{ route('check.timelagged') }}",
                 method: "POST",
@@ -646,7 +652,7 @@
                 }
             });
         }
-        
+
         if (schedule == 'recurring' && authrole == 'admin') {
             document.getElementsByName('end_date')[0].style.display = 'block';
             document.getElementsByClassName('datebox')[0].style.display = 'block';
@@ -725,7 +731,5 @@
                 }
             });
         }
-
-
     </script>
 @endsection

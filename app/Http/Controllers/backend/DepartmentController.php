@@ -52,11 +52,7 @@ class DepartmentController extends Controller
     {
         $rules = [
             'name' => 'required|unique:departments',
-            'user_id' => 'required',
-            'project_id' => 'required',
-            'client_id' => 'required',
-            'phone' => 'required',
-            'email_notification' => 'required',
+            'sales_person' => 'required',
             'status' => 'required',
 
         ];
@@ -68,9 +64,10 @@ class DepartmentController extends Controller
         try {
             $data = $request->all();
             $data['created_by'] = auth()->id();
+            // dd($data);
             unset($data['_token']);
             Department::create($data);
-            return redirect()->back()->with('success','Successfully Department created.');
+            return redirect()->back()->with('success','Successfully Department created.')->withInput();
             
         } catch (\Exception $e) {
             return redirect()
@@ -122,12 +119,8 @@ class DepartmentController extends Controller
     {
         // dd($request->all());
         $rules = [
-            'name' => 'required',
-            'user_id' => 'required',
-            'project_id' => 'required',
-            'client_id' => 'required',
-            'phone' => 'required',
-            'email_notification' => 'required',
+            'name' => 'required|unique:departments,name,' . $id .  "'",
+            'sales_person' => 'required',
             'status' => 'required',
 
         ];

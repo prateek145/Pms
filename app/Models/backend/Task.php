@@ -32,4 +32,5 @@ class Task extends Model
         return $this->hasMany(TimeLagged::class, 'task_id', 'id');
     }
 
+
 }

@@ -49,6 +49,7 @@
                             <div class="col-12">
                                 <label for="phone" class="form-label">Status</label>
                                 <select class="form-control form-select @error('status') is-invalid @enderror" name="status">
+                                    <option value="">Select</option>
                                     <option {{old('status') == 1 ? 'selected':""}} value="1">Active</option>
                                     <option {{old('status') == 0 ? 'selected':""}} value="0">Inactive</option>
                                 </select>
@@ -56,9 +57,11 @@
                             <div class="col-12">
                                 <label for="phone" class="form-label">Department</label>
                                 <select class="form-control form-select @error('department') is-invalid @enderror" name="department">
-                                    <option {{old('department') == 'design' ? 'selected':""}} value="design">Design</option>
-                                    <option {{old('department') == 'development' ? 'selected':""}} value="development">Development</option>
-                                    <option {{old('department') == 'marketing' ? 'selected':""}} value="marketing">Marketing</option>
+                                    <option value="">Select</option>
+                                    @foreach ($departments as $item)
+                                    <option {{old('department') == $item->id ? 'selected':""}} value="{{$item->id}}">{{$item->name}}</option>
+                                        
+                                    @endforeach
                                 </select>
                             </div>
                             <input type="hidden" name="role" value="user">
@@ -90,7 +93,7 @@
                                     <td>{{$item->name}}</td>
                                     <td>{{$item->phone}}</td>
                                     <td>{{$item->email}}</td>
-                                    <td>{{strtoupper($item->department)}}</td>
+                                    <td>{{$item->user_department->name ?? ""}}</td>
                                     <td>{{$item->status == 1 ? 'Active' : 'Inactive'}}</td>
                                     <td><a href="{{route('users.edit', $item->id)}}" class="btn btn-warning btn-sm">Edit</a></td>
                                 </tr>

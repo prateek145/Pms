@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
-            $table->string('department')->nullable();
+            $table->tinyInteger('department')->nullable();
             $table->string('role')->nullable();
             $table->tinyInteger('status')->nullable();
             $table->tinyInteger('created_by')->nullable();

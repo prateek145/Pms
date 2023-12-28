@@ -30,90 +30,15 @@
                                 </div>
 
                                 <div class="col-6">
-                                    <label for="inputNanme4" class="form-label ">User</label>
-                                    <select class="form-control form-select @error('user_id') is-invalid @enderror"
-                                        name="user_id">
-                                        <option value="" selected>Select</option>
-                                        @foreach ($users as $item)
-                                            <option {{ old('user_id') == 0 ? 'selected' : '' }} value="{{ $item->id }}">
-                                                {{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('user_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                    <label for="inputNanme4" class="form-label ">Show in Sales Person</label><br>
+                                    <input type="radio" {{old('sales_person') == '1' ? 'selected' : ''}} id="vehicle1" name="sales_person" value="1">
+                                    <label for="sales_person"> Yes</label><br>
+
+                                    <input type="radio" {{old('sales_person') == '0' ? 'selected' : ''}} id="vehicle1" name="sales_person" value="0">
+                                    <label for="sales_person"> No</label><br>
+
                                 </div>
 
-                                <div class="col-6">
-                                    <label for="inputNanme4" class="form-label ">Project</label>
-                                    <select class="form-control form-select @error('project_id') is-invalid @enderror"
-                                        name="project_id">
-                                        <option value="" selected>Select</option>
-                                        @foreach ($clients as $item)
-                                            <option {{ old('project_id') == 0 ? 'selected' : '' }}
-                                                value="{{ $item->id }}">
-                                                {{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('project_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="col-6">
-                                    <label for="inputNanme4" class="form-label ">Client</label>
-                                    <select class="form-control form-select @error('client_id') is-invalid @enderror"
-                                        name="client_id" onchange="client_details(this.value)">
-                                        <option value="" selected>Select</option>
-                                        @foreach ($projects as $item)
-                                            <option {{ old('client_id') == 0 ? 'selected' : '' }}
-                                                value="{{ $item->id }}">
-                                                {{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('client_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="col-6">
-                                    <label for="phone" class="form-label">Gst No</label>
-                                    <input type="text" name="gst_no" class="form-control">
-                                </div>
-
-                                <div class="col-6">
-                                    <label for="phone" class="form-label">Phone</label>
-                                    <input type="number" class="form-control @error('phone') is-invalid @enderror"
-                                        value="{{ old('phone') }}" name="phone" id="phone">
-                                    @error('phone')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-
-                                <div class="col-6">
-                                    <label for="phone" class="form-label">Alt. Phone</label>
-                                    <input type="number" class="form-control" value="{{ old('phone2') }}" name="phone2"
-                                        id="phone2">
-                                </div>
-
-                                <div class="col-6">
-                                    <label for="phone" class="form-label">EMail Notification</label>
-                                    <select
-                                        class="form-control form-select @error('email_notification') is-invalid @enderror"
-                                        name="email_notification">
-                                        <option value="" selected>Select</option>
-                                        <option {{ old('email_notification') == 1 ? 'selected' : '' }} value="1">Active
-                                        </option>
-                                        <option {{ old('email_notification') == 0 ? 'selected' : '' }} value="0">
-                                            Inactive</option>
-                                    </select>
-                                </div>
 
                                 <div class="col-6">
                                     <label for="phone" class="form-label">Status</label>
@@ -139,9 +64,7 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Name</th>
-                                        <th scope="col">User</th>
-                                        <th scope="col">Project</th>
-                                        <th scope="col">Client</th>
+                                        <th scope="col">Show in Sales Person</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Action</th>
                                     </tr>
@@ -150,10 +73,8 @@
                                     @foreach ($departments as $item)
                                         <tr>
                                             <td>{{ $count++ }}</td>
-                                            <td>{{ $item->name }}</td>
-                                            <td>{{ $item->department_user->name }}</td>
-                                            <td>{{ $item->department_project->name }}</td>
-                                            <td>{{ $item->department_client->name }}</td>
+                                            <td>{{ $item->name }}</td>>
+                                            <td>{{ $item->sales_person == 1 ? 'Active' : 'Inactive' }}</td>
                                             <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
                                             <td><a href="{{ route('departments.edit', $item->id) }}"
                                                     class="btn btn-warning btn-sm">Edit</a></td>

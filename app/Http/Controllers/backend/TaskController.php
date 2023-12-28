@@ -9,6 +9,8 @@ use App\Models\backend\TaskFile;
 use App\Models\backend\TimeLagged;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
 
 class TaskController extends Controller
 {
@@ -72,7 +74,7 @@ class TaskController extends Controller
             'priority' => 'required',
             'task_type' => 'required',
             'description' => 'required',
-            'file' => 'required',
+            // 'file' => 'required',
             'start_date' => 'required',
             'end_date' => 'required_if:schedule,==,recurring',
             'dates' => 'required_if:schedule,==,recurring',
@@ -151,7 +153,8 @@ class TaskController extends Controller
                         }
                         $data['file'] = json_encode($imagearr);
                     }
-                    Task::create($data);
+                    $task = Task::create($data);
+
                     return redirect()->back()->with('success', 'Successfully Task created.');
                 }
             } else {
@@ -191,7 +194,10 @@ class TaskController extends Controller
                         }
                         $data['file'] = json_encode($imagearr);
                     }
-                    Task::create($data);
+                    $task = Task::create($data);
+                    // dd($task->task_user->email);
+                    send_mail($data, 'message', $task->task_user->email);
+
                     return redirect()->back()->with('success', 'Successfully Task created.');
                 }
             }
@@ -232,13 +238,14 @@ class TaskController extends Controller
             if (auth()->user()->role == 'admin') {
                 # code...
                 $taskfiles = $task->taskfiles()->latest()->get();
-                $taskloggeds = [];
+                $taskloggeds = TimeLagged::where(['task_id' => $task->id])->latest()->get();
                 $count1 = 1;
                 $totalduration = 0;
+               
             } else {
                 # code...
                 $taskfiles = $task->taskfiles()->where('created_by', auth()->user()->id)->latest()->get();
-                $taskloggeds = TimeLagged::where(['created_by' => auth()->id(), 'task_id' => $task->id])->get();
+                $taskloggeds = TimeLagged::where(['created_by' => auth()->id(), 'task_id' => $task->id])->latest()->get();
                 $durations = TimeLagged::where(['created_by' => auth()->id(), 'task_id' => $task->id])->pluck('duration');
                 $secondes = 0;
                 foreach ($durations as $key => $value) {
@@ -248,10 +255,7 @@ class TaskController extends Controller
                 $totalduration = second_hours($secondes);
                 $count1 = 1;
             }
-                // dd($secondes, $totalduration);
 
-
-            // dd('prateek');
             return view('backend.tasks.edit', compact('projects', 'users', 'count1', 'task', 'count', 'taskfiles', 'taskloggeds', 'totalduration'));
         } catch (\Exception $e) {
             return redirect()
@@ -295,7 +299,7 @@ class TaskController extends Controller
             # code...
             $rules = [
                 'status' => 'required',
-                'file' => 'required',
+                // 'file' => 'required',
                 'comment' => 'required',
             ];
 

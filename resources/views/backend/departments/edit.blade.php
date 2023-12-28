@@ -21,7 +21,7 @@
                                 @csrf
                                 @method('put')
                                 <div class="col-6">
-                                    <label for="inputNanme4" class="form-label ">Name</label>
+                                    <label for="inputNanme4" class="form-label @error('name') is-invalid @enderror">Name</label>
                                     <input type="text" name="name" class="form-control" value="{{$department->name ?? ""}}">
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -31,89 +31,14 @@
                                 </div>
 
                                 <div class="col-6">
-                                    <label for="inputNanme4" class="form-label ">User</label>
-                                    <select class="form-control form-select @error('user_id') is-invalid @enderror"
-                                        name="user_id">
-                                        <option value="" selected>Select</option>
-                                        @foreach ($users as $item)
-                                            <option {{ $department->user_id == $item->id ? 'selected' : '' }} value="{{ $item->id }}">
-                                                {{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('user_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                                    {{-- {{dd($department)}} --}}
+                                    <label for="inputNanme4" class="form-label  @error('sales_person') is-invalid @enderror">Show in Sales Person</label><br>
+                                    <input type="radio" {{$department->sales_person == '1' ? 'checked' : ''}} id="vehicle1" name="sales_person" value="1">
+                                    <label for="sales_person"> Yes</label><br>
 
-                                <div class="col-6">
-                                    <label for="inputNanme4" class="form-label ">Project</label>
-                                    <select class="form-control form-select @error('project_id') is-invalid @enderror"
-                                        name="project_id">
-                                        <option value="" selected>Select</option>
-                                        @foreach ($projects as $item)
-                                            <option {{ $department->project_id == $item->id ? 'selected' : '' }}
-                                                value="{{ $item->id }}">
-                                                {{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('project_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="col-6">
-                                    <label for="inputNanme4" class="form-label ">Client</label>
-                                    <select class="form-control form-select @error('client_id') is-invalid @enderror"
-                                        name="client_id" onchange="client_details(this.value)">
-                                        <option value="" selected>Select</option>
-                                        @foreach ($clients as $item)
-                                            <option {{ $department->client_id == $item->id ? 'selected' : '' }}
-                                                value="{{ $item->id }}">
-                                                {{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('client_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="col-6">
-                                    <label for="phone" class="form-label">Gst No</label>
-                                    <input type="text" name="gst_no" class="form-control" value="{{$department->gst_no ?? ""}}">
-                                </div>
+                                    <input type="radio" {{$department->sales_person == '0' ? 'checked' : ''}} id="vehicle1" name="sales_person" value="0">
+                                    <label for="sales_person"> No</label><br>
 
-                                <div class="col-6">
-                                    <label for="phone" class="form-label">Phone</label>
-                                    <input type="number" class="form-control @error('phone') is-invalid @enderror"
-                                        value="{{ $department->phone ?? "" }}" name="phone" id="phone">
-                                    @error('phone')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-
-                                <div class="col-6">
-                                    <label for="phone" class="form-label">Alt. Phone</label>
-                                    <input type="number" class="form-control" name="phone2"
-                                        id="phone2" value="{{ $department->phone ?? "" }}">
-                                </div>
-
-                                <div class="col-6">
-                                    <label for="phone" class="form-label">EMail Notification</label>
-                                    <select
-                                        class="form-control form-select @error('email_notification') is-invalid @enderror"
-                                        name="email_notification">
-                                        <option value="" selected>Select</option>
-                                        <option {{ $department->email_notification == 1 ? 'selected' : '' }} value="1">Active
-                                        </option>
-                                        <option {{ $department->email_notification == 0 ? 'selected' : '' }} value="0">
-                                            Inactive</option>
-                                    </select>
                                 </div>
 
                                 <div class="col-6">

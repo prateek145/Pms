@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 @section('content')
-    {{-- {{dd(session()->all())}} --}}
+
     <main id="main" class="main">
         <div class="pagetitle">
             <h1>Tasks</h1>
@@ -98,7 +98,7 @@
                                         name="status">
                                         <option value="">Select</option>
                                         <option value="cancel" {{ old('status') == 'cancel' ? 'selected' : '' }}>
-                                            Canccel
+                                            Cancel
                                         </option>
                                         <option value="confirm" {{ old('status') == 'confirm' ? 'selected' : '' }}>
                                             Confirm
@@ -167,7 +167,7 @@
                                     <label for="inputNanme4" class="form-label">Start Time</label>
                                     <input type="time" class="form-control @error('start_time') is-invalid @enderror"
                                         name="start_time" min="10:00:00" max="19:00:00"
-                                        value="{{ old('start_time') }}" />
+                                        value="{{ date( 'h:i') }}"/>
 
                                     @error('start_time')
                                         <span class="invalid-feedback" role="alert">
@@ -241,7 +241,7 @@
                                 <div class="col-12 col-lg-12 mb-5">
                                     <label for="phone" class="form-label">Task Description</label>
                                     <!-- Quill Editor Full -->
-                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror" id=""
+                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="editor1"
                                         cols="30" rows="5">{{ old('description') ?? '' }}</textarea>
 
                                 </div>
@@ -283,12 +283,10 @@
                                     <tr>
                                         <td>{{ $count++ }}</td>
                                         <td>{{ $item->name }}</td>
-                                        <td>{{ $item->task_project->name }}</td>
-                                        <td>{{ $item->task_user->name }}</td>
-                                        {{-- <td>{{$item->start_date}}</td>
-                                        <td>{{$item->end_date}}</td> --}}
+                                        <td>{{ $item->task_project->name ?? ""}}</td>
+                                        <td>{{ $item->task_user->name ?? ""}}</td>
                                         <td>{{ $item->status }}</td>
-                                        <td>{{ $item->start_date }}</td>>
+                                        <td>{{ $item->start_date }}</td>
 
                                         <td><a href="{{ route('tasks.edit', $item->id) }}"
                                                 class="btn btn-warning btn-sm">Manage</a></td>
