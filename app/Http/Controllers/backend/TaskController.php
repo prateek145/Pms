@@ -100,12 +100,12 @@ class TaskController extends Controller
                         # code...
                         $taskTodo->whereTime('start_time', '<=', $request->start_time);
 
-                        $taskTodo->whereTime('end_time', '>=', $request->start_time);
+                        $taskTodo->whereTime('end_time', '>', $request->start_time);
                         if (count($taskTodo->get()) > 0) {
                             $found = true;
                         }
                         $taskTodo->whereTime('start_time', '<=', $request->end_time);
-                        $taskTodo->whereTime('end_time', '>=', $request->end_time);
+                        $taskTodo->whereTime('end_time', '>', $request->end_time);
                         if (count($taskTodo->get()) > 0) {
                             $found = true;
                         }
@@ -118,12 +118,12 @@ class TaskController extends Controller
                     if ($request->start_time && $request->start_time) {
                         # code...
                         $taskTodo->whereTime('start_time', '<=', $request->start_time);
-                        $taskTodo->whereTime('end_time', '>=', $request->start_time);
+                        $taskTodo->whereTime('end_time', '>', $request->start_time);
                         if (count($taskTodo->get()) > 0) {
                             $found = true;
                         }
                         $taskTodo->whereTime('start_time', '<=', $request->end_time);
-                        $taskTodo->whereTime('end_time', '>=', $request->end_time);
+                        $taskTodo->whereTime('end_time', '>', $request->end_time);
                         if (count($taskTodo->get()) > 0) {
                             $found = true;
                         }
@@ -163,12 +163,12 @@ class TaskController extends Controller
                 $found = false;
                 if ($request->start_time && $request->start_time) {
                     $taskTodo->whereTime('start_time', '<=', $request->start_time);
-                    $taskTodo->whereTime('end_time', '>=', $request->start_time);
+                    $taskTodo->whereTime('end_time', '>', $request->start_time);
                     if (count($taskTodo->get()) > 0) {
                         $found = true;
                     }
                     $taskTodo->whereTime('start_time', '<=', $request->end_time);
-                    $taskTodo->whereTime('end_time', '>=', $request->end_time);
+                    $taskTodo->whereTime('end_time', '>', $request->end_time);
                     if (count($taskTodo->get()) > 0) {
                         $found = true;
                     }
@@ -323,12 +323,12 @@ class TaskController extends Controller
                             # code...
                             $taskTodo->whereTime('start_time', '<=', $request->start_time);
 
-                            $taskTodo->whereTime('end_time', '>=', $request->start_time);
+                            $taskTodo->whereTime('end_time', '>', $request->start_time);
                             if (count($taskTodo->get()) > 0) {
                                 $found = true;
                             }
                             $taskTodo->whereTime('start_time', '<=', $request->end_time);
-                            $taskTodo->whereTime('end_time', '>=', $request->end_time);
+                            $taskTodo->whereTime('end_time', '>', $request->end_time);
                             if (count($taskTodo->get()) > 0) {
                                 $found = true;
                             }
@@ -341,12 +341,12 @@ class TaskController extends Controller
                         if ($request->start_time && $request->start_time) {
                             # code...
                             $taskTodo->whereTime('start_time', '<=', $request->start_time);
-                            $taskTodo->whereTime('end_time', '>=', $request->start_time);
+                            $taskTodo->whereTime('end_time', '>', $request->start_time);
                             if (count($taskTodo->get()) > 0) {
                                 $found = true;
                             }
                             $taskTodo->whereTime('start_time', '<=', $request->end_time);
-                            $taskTodo->whereTime('end_time', '>=', $request->end_time);
+                            $taskTodo->whereTime('end_time', '>', $request->end_time);
                             if (count($taskTodo->get()) > 0) {
                                 $found = true;
                             }
@@ -389,12 +389,12 @@ class TaskController extends Controller
                     $found = false;
                     if ($request->start_time && $request->start_time) {
                         $taskTodo->whereTime('start_time', '<=', $request->start_time);
-                        $taskTodo->whereTime('end_time', '>=', $request->start_time);
+                        $taskTodo->whereTime('end_time', '>', $request->start_time);
                         if (count($taskTodo->get()) > 0) {
                             $found = true;
                         }
                         $taskTodo->whereTime('start_time', '<=', $request->end_time);
-                        $taskTodo->whereTime('end_time', '>=', $request->end_time);
+                        $taskTodo->whereTime('end_time', '>', $request->end_time);
                         if (count($taskTodo->get()) > 0) {
                             $found = true;
                         }

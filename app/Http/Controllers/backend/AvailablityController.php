@@ -69,6 +69,8 @@ class AvailablityController extends Controller
             }
             $busy_time = ($diffrence/480) * 100;
             $free_time = 100 - $busy_time;
+
+            // dd($busy_time, $free_time, $diffrence);
             
             return view('backend.availablity.index', compact( 'users', 'data', 'busy_time', 'free_time', 'data1' ));
             
