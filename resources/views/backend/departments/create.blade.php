@@ -73,7 +73,7 @@
                                     @foreach ($departments as $item)
                                         <tr>
                                             <td>{{ $count++ }}</td>
-                                            <td>{{ $item->name }}</td>>
+                                            <td>{{ $item->name }}</td>
                                             <td>{{ $item->sales_person == 1 ? 'Active' : 'Inactive' }}</td>
                                             <td>{{ $item->status == 1 ? 'Active' : 'Inactive' }}</td>
                                             <td><a href="{{ route('departments.edit', $item->id) }}"

@@ -31,6 +31,9 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('dashboard/previousmonth/{date}', [HomeController::class, 'previousmonth_dashboard'])->name('previousmonth.dashboard');
+    Route::get('dashboard/nextmonth/{date}', [HomeController::class, 'nextmonth_dashboard'])->name('nextmonth.dashboard');
+    
     Route::resource('users', UserController::class);
     Route::resource('clients', ClientController::class);
     Route::resource('projects', ProjectController::class);
@@ -40,6 +43,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('projects/{id}/{key}', [ProjectController::class, 'images_delete']);
     Route::resource('tasks', TaskController::class);
     Route::get('tasks/{id}/{key}', [TaskController::class, 'images_delete']);
+    Route::get('tasks-list/{date}', [TaskController::class, 'task_list'])->name('task.list');
     Route::post('check/availablity', [TaskController::class, 'check_availablity'])->name('check.availablity');
     Route::resource('availablity', AvailablityController::class);
     Route::resource('timesheet', TimeSheetController::class);

@@ -1,6 +1,5 @@
 @extends('backend.layouts.app')
 @section('content')
-
     <main id="main" class="main">
         <div class="pagetitle">
             <h1>Tasks</h1>
@@ -166,8 +165,7 @@
                                     <!--SHOW IF Recurring-->
                                     <label for="inputNanme4" class="form-label">Start Time</label>
                                     <input type="time" class="form-control @error('start_time') is-invalid @enderror"
-                                        name="start_time" min="10:00:00" max="19:00:00"
-                                        value="{{ date( 'h:i') }}"/>
+                                        name="start_time" min="10:00:00" max="19:00:00" value="{{ date('h:i') }}" />
 
                                     @error('start_time')
                                         <span class="invalid-feedback" role="alert">
@@ -180,7 +178,7 @@
                                     <!--SHOW IF Recurring-->
                                     <label for="inputNanme4" class="form-label">End Time</label>
                                     <input type="time" class="form-control @error('end_time') is-invalid @enderror"
-                                        name="end_time" onblur="check_hours()" min="10:00:00" max="19:00:00"
+                                        name="end_time" onchange="check_hours(this.value)" min="10:00:00" max="19:00:00"
                                         value="{{ old('end_time') }}" />
 
                                     @error('end_time')
@@ -283,8 +281,8 @@
                                     <tr>
                                         <td>{{ $count++ }}</td>
                                         <td>{{ $item->name }}</td>
-                                        <td>{{ $item->task_project->name ?? ""}}</td>
-                                        <td>{{ $item->task_user->name ?? ""}}</td>
+                                        <td>{{ $item->task_project->name ?? '' }}</td>
+                                        <td>{{ $item->task_user->name ?? '' }}</td>
                                         <td>{{ $item->status }}</td>
                                         <td>{{ $item->start_date }}</td>
 
@@ -338,21 +336,42 @@
             date.setAttribute('max', end_date);
         }
 
-        function check_hours() {
+        function check_hours(end_time) {
             var start = document.getElementsByName('start_time')[0].value;
-            var end = document.getElementsByName('end_time')[0].value;
-            // console.log(getTime(start));
-            // console.log(subtract(end, start));
-            // console.log(start, parseFloat('9.990000').toFixed(2));
-            // var minutes = Math.floor(end - start) * 60;
-            // console.log(minutes);
+            var endtime = document.getElementsByName('end_time')[0].value;
+            // console.log(start, end_time);
 
+            let time1 = start;
+            let time2 = end_time;
 
+            // given a time value as a string in 24 hour format
+            // create a Date object using an arbitrary date part,
+            // specified time and UTC timezone
+
+            let date1 = new Date(`2000-01-01T${time1}Z`);
+            let date2 = new Date(`2000-01-01T${time2}Z`);
+
+            // the following is to handle cases where the times are on the opposite side of
+            // midnight e.g. when you want to get the difference between 9:00 PM and 5:00 AM
+
+            if (date2 < date1) {
+                date2.setDate(date2.getDate() + 1);
+            }
+
+            let diff = date2 - date1;
+            var ms = diff,
+                min = Math.floor((ms / 1000 / 60) << 0),
+                sec = Math.floor((ms / 1000) % 60);
+
+            console.log(min);
+            if (min > 240) {
+                alert('Time Duration Exceeded(Duration Limit - 4hrs) ');
+                document.getElementsByName('start_time')[0].value = "";
+                document.getElementsByName('end_time')[0].value = "";
+                // console.log(start, end_time);
+            }
 
         }
-
-        // var num = '30.40';
-        // console.log(parseFloat(num));
 
         function adddates(value) {
             // console.log(value);

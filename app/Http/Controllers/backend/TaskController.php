@@ -486,6 +486,42 @@ class TaskController extends Controller
         }
     }
 
+    public function task_list($date)
+    {
+
+        try {
+
+            if (auth()->user()->role == 'admin') {
+                # code...
+                $taskTodo = Task::query();
+                $taskTodo->where('start_date', $date);
+                $taskTodo->orwhereJsonContains('dates', $date);
+
+                $tasks = $taskTodo->get();
+                $count = 1;
+                return view('backend.tasks.index', compact('tasks', 'count'));
+            } else {
+                # code...
+                $taskTodo = Task::query();
+                $taskTodo->where('created_by', auth()->id());
+                $taskTodo->where('start_date', $date);
+                $taskTodo->orwhereJsonContains('dates', $date);
+                $tasks = $taskTodo->get();
+                $count = 1;
+
+                return view('backend.tasks.index', compact('tasks', 'count'));
+
+            }
+            
+
+
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', $e->getMessage());
+        }
+    }
+
     public function check_availablity(Request $request)
     {
         dd($request->all());

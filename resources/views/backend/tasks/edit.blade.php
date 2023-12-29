@@ -454,21 +454,23 @@
                                         <label for="phone" class="form-label">Images</label>
                                         <input type="file" class="form-control @error('file') is-invalid @enderror"
                                             name="file[]" multiple disabled>
-                                        @foreach ($images as $key => $item)
-                                            <div class="d-flex justify-content-between">
-                                                <a href="{{ asset('public/uploads/tasks/' . $item) }}"
-                                                    target="_blank">Click
-                                                    Here</a>
+                                        @if ($images != null)
+                                            @foreach ($images as $key => $item)
+                                                <div class="d-flex justify-content-between">
+                                                    <a href="{{ asset('public/uploads/tasks/' . $item) }}"
+                                                        target="_blank">Click
+                                                        Here</a>
 
-                                                @if (auth()->user()->role == 'admin')
-                                                    <a href="{{ url('tasks/' . $task->id . '/' . $key) }}">
-                                                        <input type="button" class="btn btn-danger btn-sm"
-                                                            value="X" onclick="return confirm('Are You Sure ?')">
-                                                    </a>
-                                                @endif
-                                            </div>
-                                            <br />
-                                        @endforeach
+                                                    @if (auth()->user()->role == 'admin')
+                                                        <a href="{{ url('tasks/' . $task->id . '/' . $key) }}">
+                                                            <input type="button" class="btn btn-danger btn-sm"
+                                                                value="X" onclick="return confirm('Are You Sure ?')">
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                                <br />
+                                            @endforeach
+                                        @endif
 
                                         @error('file')
                                             <span class="invalid-feedback" role="alert">
@@ -557,19 +559,18 @@
                                                 <tr>
                                                     <td>{{ $count++ }}</td>
                                                     @if (isset($item->file))
-                                                    <td>
-                                                        @foreach (json_decode($item->file) as $item1)
-                                                            <a href="{{ asset('public/uploads/taskfiles/' . $item1) }}"
-                                                                target="_blank">Attachment</a>
-                                                        @endforeach
-                                                    </td>
-                                                        
+                                                        <td>
+                                                            @foreach (json_decode($item->file) as $item1)
+                                                                <a href="{{ asset('public/uploads/taskfiles/' . $item1) }}"
+                                                                    target="_blank">Attachment</a>
+                                                            @endforeach
+                                                        </td>
                                                     @else
-                                                    <td>No Attachment</td>
+                                                        <td>No Attachment</td>
                                                     @endif
                                                     <td>{{ $item->created_at->format('d-m-y') }}</td>
                                                     <td>{{ $item->taskfile_user->name }}</td>
-                                                    <td>{{ $item->comment }}</td>
+                                                    <td>{!! $item->comment !!}</td>
                                                     <td>{{ $item->previous_status }}</td>
                                                     <td>{{ $item->current_status }}</td>
                                                 </tr>

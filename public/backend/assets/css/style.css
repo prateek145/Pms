@@ -1264,3 +1264,22 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+
+.calendar .month{list-style-type:none;}
+
+ul.month > li {
+    border: 2px solid #000000;
+    width: 200px;
+    float: left;
+    margin: 2px;
+    height:100px;
+}
+ul.remind {
+    height: 64px;
+    overflow: scroll;
+}
+ul.remind li{font-size:12px;}
+
+li.date.active {
+    background: #ffc1c1;
+}
