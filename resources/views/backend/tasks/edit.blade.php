@@ -234,27 +234,30 @@
                                             <input type="file"
                                                 class="form-control @error('file') is-invalid @enderror" name="file[]"
                                                 multiple>
-                                            @foreach ($images as $key => $item)
-                                                <div class="d-flex justify-content-between">
-                                                    <a href="{{ asset('public/uploads/tasks/' . $item) }}"
-                                                        target="_blank">Click
-                                                        Here</a>
+                                            @if ($images != null)
+                                                @foreach ($images as $key => $item)
+                                                    <div class="d-flex justify-content-between">
+                                                        <a href="{{ asset('public/uploads/tasks/' . $item) }}"
+                                                            target="_blank">Click
+                                                            Here</a>
 
-                                                    @if (auth()->user()->role == 'admin')
-                                                        <a href="{{ url('tasks/' . $task->id . '/' . $key) }}">
-                                                            <input type="button" class="btn btn-danger btn-sm"
-                                                                value="X" onclick="return confirm('Are You Sure ?')">
-                                                        </a>
-                                                    @endif
-                                                </div>
-                                                <br />
-                                            @endforeach
+                                                        @if (auth()->user()->role == 'admin')
+                                                            <a href="{{ url('tasks/' . $task->id . '/' . $key) }}">
+                                                                <input type="button" class="btn btn-danger btn-sm"
+                                                                    value="X"
+                                                                    onclick="return confirm('Are You Sure ?')">
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                    <br />
+                                                @endforeach
 
-                                            @error('file')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
+                                                @error('file')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            @endif
                                         </div>
                                     </div>
 
