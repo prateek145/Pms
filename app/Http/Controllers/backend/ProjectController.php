@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\backend\Client;
+use App\Models\backend\Department;
 use App\Models\backend\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -35,7 +36,10 @@ class ProjectController extends Controller
                 // dd($projects);
                 $users = User::where('role', '!=', 'admin')->get();
                 $clients = Client::all();
-                $sales_users = User::where('department', 'marketing')->get();
+
+                $departments = Department::where('sales_person', 1)->pluck('id');
+                // dd($departments);
+                $sales_users = User::whereIn('id', $departments)->get();
                 // dd($sales_users);
                 $count = 1;
                 return view('backend.projects.create', compact('projects', 'count', 'users', 'clients', 'sales_users'));
