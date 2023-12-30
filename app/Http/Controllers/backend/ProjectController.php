@@ -39,7 +39,7 @@ class ProjectController extends Controller
 
                 $departments = Department::where('sales_person', 1)->pluck('id');
                 // dd($departments);
-                $sales_users = User::whereIn('id', $departments)->get();
+                $sales_users = User::where('role', '!=', 'admin')->whereIn('id', $departments)->get();
                 // dd($sales_users);
                 $count = 1;
                 return view('backend.projects.create', compact('projects', 'count', 'users', 'clients', 'sales_users'));
