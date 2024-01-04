@@ -133,7 +133,10 @@ class DepartmentController extends Controller
             $data = $request->all();
             unset($data['_token']);
             unset($data['_method']);
-            // dd($data);
+            if (!isset($request->sales_person)) {
+                # code...
+                $data['sales_person'] = 0;
+            }
             $data['updated_by'] = auth()->id();
             $department = Department::find($id);
             $department->update($data);

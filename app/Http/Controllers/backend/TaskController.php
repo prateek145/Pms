@@ -156,6 +156,8 @@ class TaskController extends Controller
                         $data['file'] = json_encode($imagearr);
                     }
                     $task = Task::create($data);
+                    send_mail($data, 'message', $task->task_user->email, 'backend.email.task_create');
+                    send_mail($data, 'message', env("Admin_Mail"), 'backend.email.task_create');
 
                     return redirect()->back()->with('success', 'Successfully Task created.');
                 }
