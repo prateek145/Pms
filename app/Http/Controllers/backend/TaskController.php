@@ -517,7 +517,7 @@ class TaskController extends Controller
             } else {
                 # code...
                 $taskTodo = Task::query();
-                $taskTodo->where('created_by', auth()->id());
+                $taskTodo->where('allocated_user', auth()->id());
                 $taskTodo->where('start_date', $date);
                 $taskTodo->orwhereJsonContains('dates', $date);
                 $tasks = $taskTodo->get();
