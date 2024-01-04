@@ -31,11 +31,8 @@
 
                                 <div class="col-6">
                                     <label for="inputNanme4" class="form-label ">Show in Sales Person</label><br>
-                                    <input type="radio" {{old('sales_person') == '1' ? 'selected' : ''}} id="vehicle1" name="sales_person" value="1">
+                                    <input type="checkbox" {{old('sales_person') == '1' ? 'selected' : ''}} id="vehicle1" name="sales_person" value="1">
                                     <label for="sales_person"> Yes</label><br>
-
-                                    <input type="radio" {{old('sales_person') == '0' ? 'selected' : ''}} id="vehicle1" name="sales_person" value="0">
-                                    <label for="sales_person"> No</label><br>
 
                                 </div>
 

@@ -34,6 +34,7 @@ class SendEmailJob implements ShouldQueue
      */
     public function handle()
     {
+        // dd('prateek_job_create_email');
         $email = new TaskCreateEmail();
         Mail::to($this->data['email'])->send($email);
     }

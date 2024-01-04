@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\backend\Allocated_User;
 use App\Models\backend\Client;
 use App\Models\backend\Department;
 use App\Models\backend\Project;
@@ -39,13 +40,15 @@ class ProjectController extends Controller
 
                 $departments = Department::where('sales_person', 1)->pluck('id');
                 // dd($departments);
-                $sales_users = User::where('role', '!=', 'admin')->whereIn('id', $departments)->get();
+                $sales_users = User::where('role', '!=', 'admin')->whereIn('department', $departments)->get();
                 // dd($sales_users);
                 $count = 1;
                 return view('backend.projects.create', compact('projects', 'count', 'users', 'clients', 'sales_users'));
             } else {
                 # code...
-                $projects = Project::where('allocated_user', auth()->id())->latest()->get();
+                $project_ids = Allocated_User::where('user_id', auth()->id())->pluck('project_id');
+                $projects = Project::whereIn('id', $project_ids)->latest()->get();
+                // dd($projects);
                 $count = 1;
                 return view('backend.projects.create', compact('projects', 'count'));
             }
@@ -71,7 +74,7 @@ class ProjectController extends Controller
             'client_phone' => 'required|min:10|numeric',
             'client_email' => 'required|min:10|email',
             'sales_person' => 'required|integer',
-            'allocated_user' => 'required|integer',
+            'allocated_user' => 'required|array',
             'cost' => 'required',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
@@ -85,25 +88,43 @@ class ProjectController extends Controller
 
         $this->validate($request, $rules, $custommessage);
 
-        try {
-            $data = $request->all();
-            unset($data['_token']);
-            $data['created_by'] = auth()->id();
+        $data = $request->all();
+        unset($data['_token']);
+        unset($data['allocated_user']);
+        $data['created_by'] = auth()->id();
 
-            if ($request->file) {
+        if ($request->file) {
+            # code...
+            $imagearr = [];
+            for ($i = 0; $i < count($request->file); $i++) {
                 # code...
-                $imagearr = [];
-                for ($i = 0; $i < count($request->file); $i++) {
-                    # code...
-                    $imagearr[$i] = rand() . $request->file[$i]->getClientOriginalName();
-                    $destination_path = public_path('/uploads/projects');
-                    $request->file[$i]->move($destination_path, $imagearr[$i]);
-                }
-                $data['file'] = json_encode($imagearr);
+                $imagearr[$i] = rand() . $request->file[$i]->getClientOriginalName();
+                $destination_path = public_path('/uploads/projects');
+                $request->file[$i]->move($destination_path, $imagearr[$i]);
             }
-            // dd($data);
-            Project::create($data);
-            return redirect()->back()->with('success', 'Successfully Clinet created.');
+            $data['file'] = json_encode($imagearr);
+        }
+        // dd($data);
+        $project = Project::create($data);
+        if (count($request->allocated_user) > 0) {
+            # code...
+            foreach ($request->allocated_user as $key => $value) {
+                # code...
+                $data1 = [
+                    'project_id' => $project->id, 
+                    'user_id' => $value
+                ];
+
+                Allocated_User::create($data1);
+                $user = $project->specefic_user($value);
+                send_mail($project, 'message', $user->email, 'backend.email.project_allocated');
+
+                // dd($user);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Successfully Project created.');
+        try {
         } catch (\Exception $e) {
             return redirect()
                 ->back()
@@ -193,7 +214,7 @@ class ProjectController extends Controller
 
             $project->update($data);
             // $project->save();
-            return redirect()->back()->with('success', 'Successfully Clinet Updated.');
+            return redirect()->back()->with('success', 'Successfully Project Updated.');
         } catch (\Exception $e) {
             return redirect()
                 ->back()

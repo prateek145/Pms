@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('allocated__users', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->tinyInteger('status')->nullable();
-            $table->tinyInteger('sales_person')->default(0);
-            $table->tinyInteger('created_by')->nullable();
-            $table->tinyInteger('updated_by')->nullable();
+            $table->tinyInteger('project_id');
+            $table->tinyInteger('user_id');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('allocated__users');
     }
 };

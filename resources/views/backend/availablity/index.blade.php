@@ -85,10 +85,9 @@
     <script>
         var btime = "{{ $busy_time }}";
         var ftime = "{{ $free_time }}";
-        // console.log(typeof(btime), typeof(ftime));
         if (btime != null && ftime != null) {
             var options = {
-                series: [parseInt(btime), parseInt(ftime)],
+                series: [parseFloat(btime), parseFloat(ftime)],
                 chart: {
                     width: 380,
                     type: 'pie',

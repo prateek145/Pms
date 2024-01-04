@@ -52,7 +52,7 @@ class DepartmentController extends Controller
     {
         $rules = [
             'name' => 'required|unique:departments',
-            'sales_person' => 'required',
+            // 'sales_person' => 'required',
             'status' => 'required',
 
         ];
@@ -120,7 +120,7 @@ class DepartmentController extends Controller
         // dd($request->all());
         $rules = [
             'name' => 'required|unique:departments,name,' . $id .  "'",
-            'sales_person' => 'required',
+            // 'sales_person' => 'required',
             'status' => 'required',
 
         ];

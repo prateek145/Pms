@@ -77,7 +77,8 @@ class TimeSheetController extends Controller
                     $assign_task_time1 = 0;
                     $time_taken1 = 0;
                     foreach ($queryTodo->get() as $key1 => $value1) {
-                        $assign_task_time1 += (strtotime($value1->end_time) - strtotime($value1->start_time))/60;
+                        $assign_task_time1 += (strtotime($value1->end_time) - strtotime($value1->start_time));
+                        // dd($value1->tasklagged()->get());
                         foreach ($value1->tasklagged()->get() as $key2 => $value2) {
                             $time_taken1 += $value2->duration;
                             // dd($value2->duration);
@@ -85,9 +86,8 @@ class TimeSheetController extends Controller
                         
                     }
                     // dd($assign_task_time1, $time_taken1);
-
-                    array_push($assign_task_time, $assign_task_time1);
-                    array_push($time_taken, number_format($time_taken1/60, 1));
+                    array_push($assign_task_time,gmdate("H.i", $assign_task_time1));
+                    array_push($time_taken, gmdate("H.i", $time_taken1));
                 } else {
                     // dd($task, 'kmr');
                     array_push($assign_task_time, 0);

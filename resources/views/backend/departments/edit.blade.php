@@ -33,11 +33,9 @@
                                 <div class="col-6">
                                     {{-- {{dd($department)}} --}}
                                     <label for="inputNanme4" class="form-label  @error('sales_person') is-invalid @enderror">Show in Sales Person</label><br>
-                                    <input type="radio" {{$department->sales_person == '1' ? 'checked' : ''}} id="vehicle1" name="sales_person" value="1">
+                                    <input type="checkbox" {{$department->sales_person == '1' ? 'checked' : ''}} id="vehicle1" name="sales_person" value="1">
                                     <label for="sales_person"> Yes</label><br>
 
-                                    <input type="radio" {{$department->sales_person == '0' ? 'checked' : ''}} id="vehicle1" name="sales_person" value="0">
-                                    <label for="sales_person"> No</label><br>
 
                                 </div>
 

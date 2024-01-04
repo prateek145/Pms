@@ -8,6 +8,8 @@ use App\Models\backend\Client;
 use App\Models\backend\Project;
 use App\Models\backend\Task;
 use Carbon\Carbon;
+// use Larafirebase;
+
 
 
 class HomeController extends Controller
@@ -44,7 +46,7 @@ class HomeController extends Controller
         $daysinmonth = Carbon::now()->daysInMonth;
         $date = Carbon::now()->format('Y-m-d');
         // dd($date);
-        return view('backend.home', compact('users','date', 'clients', 'projects', 'tasks', 'currentmonth', 'current_year', 'current_month', 'current_date', 'daysinmonth', 'current_day'));
+        return view('backend.home', compact('users', 'date', 'clients', 'projects', 'tasks', 'currentmonth', 'current_year', 'current_month', 'current_date', 'daysinmonth', 'current_day'));
     }
 
     public function previousmonth_dashboard($date)
@@ -70,9 +72,9 @@ class HomeController extends Controller
 
             $showpinkbox = false;
             $daysinmonth = Carbon::createFromDate($year, $month)->daysInMonth;
-        $date = Carbon::now()->format('Y-m-d');
+            $date = Carbon::now()->format('Y-m-d');
 
-            return view('backend.home', compact( 'year','date','currentmonth','current_year', 'current_month','current_date', 'daysinmonth', 'current_day'));
+            return view('backend.home', compact('year', 'date', 'currentmonth', 'current_year', 'current_month', 'current_date', 'daysinmonth', 'current_day'));
         } catch (\Exception $th) {
             //throw $th;
             return redirect()
@@ -107,12 +109,60 @@ class HomeController extends Controller
 
             $date = Carbon::now()->format('Y-m-d');
             $daysinmonth = Carbon::createFromDate($year, $month)->daysInMonth;
-            return view('backend.home', compact( 'year','date','currentmonth','current_year', 'current_month','current_date', 'daysinmonth', 'current_day'));
+            return view('backend.home', compact('year', 'date', 'currentmonth', 'current_year', 'current_month', 'current_date', 'daysinmonth', 'current_day'));
         } catch (\Exception $th) {
             //throw $th;
             return redirect()
                 ->back()
                 ->with('error', $th->getMessage());
         }
+    }
+
+    public function updateToken(Request $request)
+    {
+        try {
+            $request->user()->update(['fcm_token' => $request->token]);
+            return response()->json([
+                'success' => true
+            ]);
+        } catch (\Exception $e) {
+            report($e);
+            return response()->json([
+                'success' => false
+            ], 500);
+        }
+    }
+
+    public function notification(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'message' => 'required'
+        ]);
+
+        try {
+            $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
+
+            //Notification::send(null,new SendPushNotification($request->title,$request->message,$fcmTokens));
+
+            /* or */
+
+            //auth()->user()->notify(new SendPushNotification($title,$message,$fcmTokens));
+
+            /* or */
+
+            Larafirebase::withTitle($request->title)
+                ->withBody($request->message)
+                ->sendMessage($fcmTokens);
+
+            return redirect()->back()->with('success', 'Notification Sent Successfully!!');
+        } catch (\Exception $e) {
+            report($e);
+            return redirect()->back()->with('error', 'Something goes wrong while sending notification.');
+        }
+    }
+
+    public function page(){
+        return view('backend.notification');
     }
 }

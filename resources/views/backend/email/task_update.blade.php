@@ -11,6 +11,8 @@
                 <h4> Task Name - {{$body['name'] ?? ''}}</h4>
                 <h4> Task Start time - {{$body['start_time'] ?? ''}}</h4>
                 <h4> Task End time - {{$body['end_time'] ?? ''}}</h4>
+                <h4> Task Previous Status - {{$body['previous_status'] ?? ''}}</h4>
+                <h4> Task Current Status - {{$body['current_status'] ?? ''}}</h4>
                 <h4> Task Description - {!!$body['description'] ?? ''!!}</h4>
 
 

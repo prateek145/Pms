@@ -3,6 +3,7 @@
 use App\Http\Controllers\backend\AvailablityController;
 use App\Http\Controllers\backend\ClientController;
 use App\Http\Controllers\backend\DepartmentController;
+use App\Http\Controllers\backend\NotificationSendController;
 use App\Http\Controllers\backend\ProjectController;
 use App\Http\Controllers\backend\TaskController;
 use App\Http\Controllers\backend\TimeLaggedController;
@@ -33,7 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('dashboard/previousmonth/{date}', [HomeController::class, 'previousmonth_dashboard'])->name('previousmonth.dashboard');
     Route::get('dashboard/nextmonth/{date}', [HomeController::class, 'nextmonth_dashboard'])->name('nextmonth.dashboard');
-    
+
     Route::resource('users', UserController::class);
     Route::resource('clients', ClientController::class);
     Route::resource('projects', ProjectController::class);
@@ -49,6 +50,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('timesheet', TimeSheetController::class);
     Route::resource('timelagged', TimeLaggedController::class);
     Route::post('check/timelagged', [TimeLaggedController::class, 'check_timelagged'])->name('check.timelagged');
+
+    Route::get('notification', [NotificationSendController::class, 'notification'])->name('notification');
+    Route::post('/store-token', [NotificationSendController::class, 'updateDeviceToken'])->name('store.token');
+    Route::post('/send-web-notification', [NotificationSendController::class, 'sendNotification'])->name('send.web-notification');
+
+    Route::get('send-email', function(){
+        $data['email'] = 'prateekk898@gmail.com';
+        $iii = dispatch(new App\Jobs\SendEmailJob($data));
+        dd($iii);
+        dd('mail send successfully');
+    });
 });
-
-

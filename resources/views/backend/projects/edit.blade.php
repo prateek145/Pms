@@ -172,25 +172,27 @@
 
                                     <input type="file" class="form-control @error('file') is-invalid @enderror"
                                         name="file[]" multiple>
-                                    @foreach ($images as $key => $item)
-                                        <div class="d-flex justify-content-between">
-                                            <a href="{{ asset('public/uploads/projects/' . $item) }}"
-                                                target="_blank">Click
-                                                Here</a>
+                                    @if ($images !== null)
+                                        @foreach ($images as $key => $item)
+                                            <div class="d-flex justify-content-between">
+                                                <a href="{{ asset('public/uploads/projects/' . $item) }}"
+                                                    target="_blank">Click
+                                                    Here</a>
 
-                                            @if (auth()->user()->role == 'admin')
-                                                <a href="{{ url('projects/' . $project->id . '/' . $key) }}">
-                                                    <input type="button" class="btn btn-danger btn-sm" value="X"
-                                                        onclick="return confirm('Are You Sure ?')">
-                                                </a>
-                                            @endif
+                                                @if (auth()->user()->role == 'admin')
+                                                    <a href="{{ url('projects/' . $project->id . '/' . $key) }}">
+                                                        <input type="button" class="btn btn-danger btn-sm"
+                                                            value="X" onclick="return confirm('Are You Sure ?')">
+                                                    </a>
+                                                @endif
 
 
 
 
-                                        </div>
-                                        <br />
-                                    @endforeach
+                                            </div>
+                                            <br />
+                                        @endforeach
+                                    @endif
 
                                     @error('file')
                                         <span class="invalid-feedback" role="alert">

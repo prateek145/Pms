@@ -266,7 +266,7 @@
                                     <div class="col-12 col-lg-12">
                                         <label for="phone" class="form-label">Task Description</label>
                                         <!-- Quill Editor Full -->
-                                        <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="editor1">{{ $task->description }}</textarea>
+                                        <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="editor1">{!!$task->description!!}</textarea>
                                     </div>
                                     <!-- End Quill Editor Full -->
                                     <input type="submit" value="Submit" class="btn btn-primary mt-5">
@@ -485,7 +485,7 @@
                                 <div class="col-12 col-lg-12">
                                     <label for="phone" class="form-label">Task Description</label>
                                     <!-- Quill Editor Full -->
-                                    <textarea class="form-control @error('description') is-invalid @enderror" name="description" disabled>{{ $task->description }}</textarea>
+                                    <textarea class="form-control @error('description') is-invalid @enderror" name="description" disabled>{!!$task->description!!}</textarea>
                                 </div>
                                 <form class="row g-3" action="{{ route('tasks.update', $task->id) }}" method="POST"
                                     enctype="multipart/form-data">

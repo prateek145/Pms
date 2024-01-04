@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\backend\Allocated_User;
 use App\Models\backend\Project;
 use App\Models\backend\Task;
 use App\Models\backend\TaskFile;
@@ -41,7 +42,8 @@ class TaskController extends Controller
                 return view('backend.tasks.create', compact('tasks', 'count', 'users', 'projects'));
             } else {
                 # code...
-                $projects = Project::latest()->get();
+                $project_ids = Allocated_User::where('user_id', auth()->id())->pluck('project_id');
+                $projects = Project::whereIn('id', $project_ids)->latest()->get();
                 $tasks = Task::where('allocated_user', auth()->id())->latest()->get();
                 $users = User::where('role', '!=', 'admin')->where('id', auth()->id())->get();
                 $count = 1;
@@ -196,7 +198,9 @@ class TaskController extends Controller
                     }
                     $task = Task::create($data);
                     // dd($task->task_user->email);
-                    send_mail($data, 'message', $task->task_user->email);
+                    // dd($data);
+                    send_mail($data, 'message', $task->task_user->email, 'backend.email.task_create');
+                    send_mail($data, 'message', env("Admin_Mail"), 'backend.email.task_create');
 
                     return redirect()->back()->with('success', 'Successfully Task created.');
                 }
@@ -449,6 +453,14 @@ class TaskController extends Controller
                 unset($data['status']);
                 unset($data['tasklagged_id']);
                 TaskFile::create($data);
+
+                $data['start_time'] = $task->start_time;
+                $data['end_time'] = $task->end_time;
+                $data['name'] = $task->name;
+                $data['description'] = $task->description;
+                send_mail($data, 'message', $task->task_user->email, 'backend.email.task_update');
+                send_mail($data, 'message', env("Admin_Mail"), 'backend.email.task_update');
+
                 return redirect()->back()->with('success', 'Successfully Task file Created.');
             }
         } catch (\Exception $e) {

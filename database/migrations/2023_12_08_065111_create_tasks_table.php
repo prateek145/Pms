@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('priority')->nullable();
             $table->string('task_type')->nullable();
             $table->longText('file')->nullable();
+            $table->longText('dates')->nullable();
             $table->longText('description')->nullable();
             $table->tinyInteger('created_by')->nullable();
             $table->tinyInteger('updated_by')->nullable();

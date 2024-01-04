@@ -165,7 +165,7 @@
                                     <!--SHOW IF Recurring-->
                                     <label for="inputNanme4" class="form-label">Start Time</label>
                                     <input type="time" class="form-control @error('start_time') is-invalid @enderror"
-                                        name="start_time" min="10:00:00" max="19:00:00" value="{{ date('h:i') }}" />
+                                        name="start_time" pattern="^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$" min="10:00:00" max="19:00:00" value="{{ date('h:i') }}" />
 
                                     @error('start_time')
                                         <span class="invalid-feedback" role="alert">

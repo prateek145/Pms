@@ -43,7 +43,7 @@ class TaskCreateEmail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'backend.email.task_create',
+            view: 'backend.email.test',
         );
     }
 
