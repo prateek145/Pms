@@ -57,9 +57,11 @@
                             <div class="col-12">
                                 <label for="phone" class="form-label">Department</label>
                                 <select class="form-control form-select @error('department') is-invalid @enderror" name="department">
-                                    <option {{$user->department == 'design' ? 'selected':""}} value="design">Design</option>
-                                    <option {{$user->department == 'development' ? 'selected':""}} value="development">Development</option>
-                                    <option {{$user->department == 'marketing' ? 'selected':""}} value="marketing">Marketing</option>
+                                    <option value="">Select</option>
+                                    @foreach ($departments as $item)
+                                    <option {{$user->department == $item->id ? 'selected':""}} value="{{$item->id}}">{{$item->name}}</option>
+                                        
+                                    @endforeach
                                 </select>
                             </div>
                             {{-- <input type="hidden" name="role" value="user"> --}}

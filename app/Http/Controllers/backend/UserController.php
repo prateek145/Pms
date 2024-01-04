@@ -95,6 +95,8 @@ class UserController extends Controller
     {
         try {
             $user = User::find($id);
+            $departments = Department::where('status', 1)->latest()->get();
+
             return view('backend.users.edit', compact('user'));
         } catch (\Exception $e) {
             return redirect()
