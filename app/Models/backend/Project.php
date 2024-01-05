@@ -18,6 +18,12 @@ class Project extends Model
         return $users;
     }
 
+    public function project_users_ids(){
+        $data = $this->hasMany(Allocated_User::class,'project_id', 'id');
+        $users =User::whereIn('id', $data->pluck('user_id'))->pluck('id')->toArray();
+        return $users;
+    }
+
     public function specefic_user($id){
         $user = User::find($id);
         return $user;

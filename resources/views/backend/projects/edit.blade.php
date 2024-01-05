@@ -127,12 +127,12 @@
                                 </div>
                                 <div class="col-12 col-lg-4">
                                     <label for="phone" class="form-label">Allocate Users</label>
-                                    <select class="form-control @error('allocated_user') is-invalid @enderror form-select"
-                                        name="allocated_user">
+                                    <select
+                                        class="form-control @error('allocated_user') is-invalid @enderror form-select"
+                                        name="allocated_user[]" multiple>
+
                                         @foreach ($users as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ $project->allocated_user == $item->id ? 'selected' : '' }}>
-                                                {{ $item->name }}</option>
+                                            <option value="{{ $item->id }}" {{in_array($item->id, $project->project_users_ids()) == true ? "selected" : ""}}>{{ $item->name }}</option>
                                         @endforeach
                                     </select>
 

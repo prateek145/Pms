@@ -111,7 +111,7 @@ class ProjectController extends Controller
             foreach ($request->allocated_user as $key => $value) {
                 # code...
                 $data1 = [
-                    'project_id' => $project->id, 
+                    'project_id' => $project->id,
                     'user_id' => $value
                 ];
 
@@ -154,6 +154,7 @@ class ProjectController extends Controller
         try {
             $project = Project::find($id);
             $users = User::where('role', '!=', 'admin')->get();
+            // dd(in_array(2, $project->project_users_ids()));
             return view('backend.projects.edit', compact('project', 'users'));
         } catch (\Exception $e) {
             return redirect()
@@ -178,7 +179,7 @@ class ProjectController extends Controller
             'client_phone' => 'required|min:10|numeric',
             'client_email' => 'required|min:10|email',
             'sales_person' => 'required|integer',
-            'allocated_user' => 'required|integer',
+            'allocated_user' => 'required|array',
             'cost' => 'required',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
@@ -193,9 +194,10 @@ class ProjectController extends Controller
 
         try {
             $data = $request->all();
-            dd($data);
+            // dd($data);
             unset($data['_token']);
             $data['updated_by'] = auth()->id();
+            unset($data['allocated_user']);
             $project = Project::find($id);
 
             if ($request->file) {
@@ -210,7 +212,27 @@ class ProjectController extends Controller
                 }
                 $data['file'] = array_merge($imagearr, $imagearr1);
             }
-            // dd($data);
+            // dd($data, $request->allocated_user);
+
+            if (count($request->allocated_user) > 0) {
+                // dd(Allocated_User::where('project_id', $project->id)->whereIn('user_id', $project->project_users_ids())->pluck('id')->toArray());
+                $data12 = Allocated_User::destroy(Allocated_User::where('project_id', $project->id)->whereIn('user_id', $project->project_users_ids())->pluck('id')->toArray());
+
+                // dd($data12);
+                foreach ($request->allocated_user as $key => $value) {
+                    # code...
+                    $data1 = [
+                        'project_id' => $project->id,
+                        'user_id' => $value
+                    ];
+
+                    Allocated_User::create($data1);
+                    $user = $project->specefic_user($value);
+                    send_mail($project, 'message', $user->email, 'backend.email.project_allocated');
+
+                    // dd($user);
+                }
+            }
 
             $project->update($data);
             // $project->save();
