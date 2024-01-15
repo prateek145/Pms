@@ -2,16 +2,15 @@
 @section('content')
 <td class="wrapper">
     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-
-        <span class="d-none d-lg-block">Project Management</span>
         <tr>
             <td>
-                {{-- {{dd($body)}} --}}
-                <h3>Task Details</h3>
-                <h4> Task Name - {{$body['name'] ?? ''}}</h4>
-                <h4> Task Start time - {{$body['start_time'] ?? ''}}</h4>
-                <h4> Task End time - {{$body['end_time'] ?? ''}}</h4>
-                <h4> Task Description - {!!$body['description'] ?? ''!!}</h4>
+                <p> Created By - {{$body['user_name'] ?? ''}}</p>
+                <p> Created On - {{$body['start_date'] ?? ''}}</p>
+                <h4> Project Name - {{$body['project_name'] ?? ''}}</h4>
+                <p> Task Name - {{$body['name'] ?? ''}}</p>
+                <p> Start time - {{$body['start_time'] ?? ''}}</p>
+                <p> Duration  - {{(strtotime($body['end_time']) - strtotime($body['start_time'])) / 60}}</p>
+                <p> Task Description - {!!$body['description'] ?? ''!!}</p>
 
 
                 <h4><a href="{{route('login')}}" target="_blank">Project Management</a></h4>

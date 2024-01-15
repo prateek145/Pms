@@ -4,12 +4,12 @@
     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td>
-                {{-- {{dd($body)}} --}}
-                <p> Name - {{$body['name'] ?? ''}}</p>
-                <p> Previous Status - {{$body['previous_status'] ?? ''}}</p>
-                <p> Current Status - {{$body['current_status'] ?? ''}}</p>
-                <p> Description - {!!$body['description'] ?? ''!!}</p>
-
+                <p> Task Name - {{$body['task_name'] ?? ''}}</p>
+                @if ($body['end_time'] == '')
+                    <p>Running</p> 
+                @else
+                    <p>Stopped</p>
+                @endif
 
                 <h4><a href="{{route('login')}}" target="_blank">Project Management</a></h4>
             </td>

@@ -77,8 +77,8 @@ class ProjectController extends Controller
             'allocated_user' => 'required|array',
             'cost' => 'required',
             'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'phase' => 'required',
+            // 'end_date' => 'required|date',
+            // 'phase' => 'required',
             'status' => 'required',
             // 'file' => 'required',
             'comment' => 'required',
@@ -182,8 +182,8 @@ class ProjectController extends Controller
             'allocated_user' => 'required|array',
             'cost' => 'required',
             'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'phase' => 'required',
+            // 'end_date' => 'required|date',
+            // 'phase' => 'required',
             'status' => 'required',
             'comment' => 'required',
         ];
@@ -277,6 +277,28 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->with('error', $e->getMessage());
+        }
+    }
+
+
+    public function client_details(Request $request)
+    {
+        // dd($request->all());
+
+        try {
+            $client = Client::find($request->client_id);
+            // dd($client);
+            return response()->json([
+                'status' => 'success',
+                'data' => $client,
+                'message' => 'Data fetched successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'data' => [],
+                'message' => $e->getMessage()
+            ]);
         }
     }
 }

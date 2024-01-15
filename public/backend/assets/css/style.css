@@ -1283,3 +1283,8 @@ ul.remind li{font-size:12px;}
 li.date.active {
     background: #ffc1c1;
 }
+
+.calendar .month {
+  list-style-type: none;
+  display: inline-block;
+}

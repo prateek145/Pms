@@ -50,10 +50,10 @@ class ClientController extends Controller
             'name' => 'required',
             'email' => 'required',
             'phone' => 'required|min:10|numeric',
-            'phone2' => 'required|min:10|numeric',
+            // 'phone2' => 'required|min:10|numeric',
             'business_name' => 'required',
             'business_address' => 'required',
-            'gst_no' => 'required',
+            // 'gst_no' => 'required',
             'lead_source' => 'required',
             'status' => 'required'
         ];
@@ -118,10 +118,10 @@ class ClientController extends Controller
             'name' => 'required',
             'email' => 'required',
             'phone' => 'required|min:10|numeric',
-            'phone2' => 'required|min:10|numeric',
+            // 'phone2' => 'required|min:10|numeric',
             'business_name' => 'required',
             'business_address' => 'required',
-            'gst_no' => 'required',
+            // 'gst_no' => 'required',
             'lead_source' => 'required',
             'status' => 'required'
         ];

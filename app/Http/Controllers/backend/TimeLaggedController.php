@@ -41,8 +41,13 @@ class TimeLaggedController extends Controller
             unset($data['_token']);
             $data['created_by'] = auth()->id();
             $data['start_time'] = date('Y-m-d H:i:s');
-            // dd($data);
             $tasklagged = TimeLagged::create($data);
+            // $task = TimeLagged::find($tasklagged->task_id);
+            // $data['task_name'] = $task->name;
+            // dd($task);
+            // send_mail($data, 'message', $task->task_user->email, 'backend.email.timer_start', $task->name);
+            // send_mail($data, 'message', env("Admin_Mail"), 'backend.email.timer_start', $task->name);
+
             return response()->json(['result'=>'success', 'tasklagged_id' => $tasklagged->id]);
 
         } catch (\Exception $e) {

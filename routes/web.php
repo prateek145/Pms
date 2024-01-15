@@ -39,6 +39,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('clients', ClientController::class);
     Route::resource('projects', ProjectController::class);
     Route::resource('departments', DepartmentController::class);
+
+    Route::post('client/details', [ProjectController::class, 'client_details'])->name('client.details');
     Route::post('client_details', [DepartmentController::class, 'client_details'])->name('client.details');
 
     Route::get('projects/{id}/{key}', [ProjectController::class, 'images_delete']);

@@ -34,7 +34,8 @@
                                     <div class="col-12 col-lg-4">
                                         <label for="phone" class="form-label">Client</label>
                                         <select class="form-control @error('client_name') is-invalid @enderror form-select"
-                                            name="client_name">
+                                            name="client_name" onchange="clientdetails(this.value)">
+                                            <option value="" selected>Select</option>
                                             @foreach ($clients as $item)
                                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach
@@ -230,4 +231,28 @@
             </div>
         </section>
     </main><!-- End #main -->
+
+    <script>
+        function clientdetails(value) {
+
+            $.ajax({
+                url: "{{ route('client.details') }}",
+                method: "POST",
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    "client_id": value
+                },
+                success: function(response) {
+                    if (response.status == 'success' && response.data != null) {
+                        var phone = document.getElementsByName('client_phone')[0];
+                        var email = document.getElementsByName('client_email')[0];
+                        console.log(phone, email);
+                        phone.value = response.data.phone;
+                        email.value = response.data.email;
+                        
+                    }
+                }
+            });
+        }
+    </script>
 @endsection

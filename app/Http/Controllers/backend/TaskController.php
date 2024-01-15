@@ -156,8 +156,8 @@ class TaskController extends Controller
                         $data['file'] = json_encode($imagearr);
                     }
                     $task = Task::create($data);
-                    send_mail($data, 'message', $task->task_user->email, 'backend.email.task_create');
-                    send_mail($data, 'message', env("Admin_Mail"), 'backend.email.task_create');
+                    send_mail($data, 'message', $task->task_user->email, 'backend.email.task_create', $data['name']);
+                    send_mail($data, 'message', env("Admin_Mail"), 'backend.email.task_create', $data['name']);
 
                     return redirect()->back()->with('success', 'Successfully Task created.');
                 }
@@ -201,8 +201,12 @@ class TaskController extends Controller
                     $task = Task::create($data);
                     // dd($task->task_user->email);
                     // dd($data);
-                    send_mail($data, 'message', $task->task_user->email, 'backend.email.task_create');
-                    send_mail($data, 'message', env("Admin_Mail"), 'backend.email.task_create');
+                    $data['user_name'] = $task->task_user->name;
+                    $data['project_name'] = $task->task_project->name;
+
+                    // dd($data);
+                    send_mail($data, 'message', $task->task_user->email, 'backend.email.task_create', $data['name']);
+                    send_mail($data, 'message', env("Admin_Mail"), 'backend.email.task_create', $data['name']);
 
                     return redirect()->back()->with('success', 'Successfully Task created.');
                 }
@@ -460,8 +464,8 @@ class TaskController extends Controller
                 $data['end_time'] = $task->end_time;
                 $data['name'] = $task->name;
                 $data['description'] = $task->description;
-                send_mail($data, 'message', $task->task_user->email, 'backend.email.task_update');
-                send_mail($data, 'message', env("Admin_Mail"), 'backend.email.task_update');
+                send_mail($data, 'message', $task->task_user->email, 'backend.email.task_update', $task->name);
+                send_mail($data, 'message', env("Admin_Mail"), 'backend.email.task_update', $task->name);
 
                 return redirect()->back()->with('success', 'Successfully Task file Created.');
             }

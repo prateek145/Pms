@@ -165,7 +165,8 @@
                                     <!--SHOW IF Recurring-->
                                     <label for="inputNanme4" class="form-label">Start Time</label>
                                     <input type="time" class="form-control @error('start_time') is-invalid @enderror"
-                                        name="start_time" pattern="^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$" min="10:00:00" max="19:00:00" value="{{ date('h:i') }}" />
+                                        name="start_time" pattern="^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$"
+                                        min="10:00:00" max="19:00:00" value="{{ date('h:i') }}" />
 
                                     @error('start_time')
                                         <span class="invalid-feedback" role="alert">
@@ -268,6 +269,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Tasks</th>
+                                    <th scope="col">Duration</th>
                                     <th scope="col">Project</th>
                                     <th scope="col">Allocate</th>
                                     <th scope="col">Status</th>
@@ -281,6 +283,15 @@
                                     <tr>
                                         <td>{{ $count++ }}</td>
                                         <td>{{ $item->name }}</td>
+                                        @php
+                                            $total_time = 0;
+                                            foreach ($item->tasklagged as $key => $value) {
+                                                # code...
+                                                $total_time += $value->duration;
+                                            }
+                                            // dd($total_time);
+                                        @endphp
+                                        <td>{{second_hours($total_time)}}</td>
                                         <td>{{ $item->task_project->name ?? '' }}</td>
                                         <td>{{ $item->task_user->name ?? '' }}</td>
                                         <td>{{ $item->status }}</td>

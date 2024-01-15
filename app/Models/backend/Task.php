@@ -20,6 +20,7 @@ class Task extends Model
         return $this->hasOne(User::class, 'id', 'allocated_user');
     }
 
+
     public function task_project(){
         return $this->hasOne(Project::class, 'id', 'project');
     }
