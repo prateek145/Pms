@@ -33,5 +33,9 @@ class Task extends Model
         return $this->hasMany(TimeLagged::class, 'task_id', 'id');
     }
 
+    public function tasklagged_one(){
+        return $this->hasOne(TimeLagged::class, 'task_id', 'id');
+    }
+
 
 }

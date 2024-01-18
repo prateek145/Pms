@@ -16,7 +16,7 @@ function minutesin_hours($min){
 
 function send_mail($data, $message = null, $email, $template, $subject = 'Project Management'){
     $mail = Mail::send($template, ['body' => $data], function ($message) use ($email, $subject) {
-        $message->sender(env('Admin_Mail'));
+        $message->sender(env('MAIL_FROM_ADDRESS'));
         $message->subject($subject);
         $message->to($email);
     });
