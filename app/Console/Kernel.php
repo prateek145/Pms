@@ -18,7 +18,27 @@ class Kernel extends ConsoleKernel
     ];
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('Everyday10_10:run')->daily();
+        $schedule->command('10am:task')->when(function(){
+            $current_time = date('H:i:s');
+            if ($current_time == '10:10:00') {
+                # code...
+                return true;
+            }else{
+                return false;
+            }
+        })->daily();
+
+        $schedule->command('over8:task')->when(function(){
+            $current_time = date('H:i:s');
+            if ($current_time == '20:00:00') {
+                # code...
+                return true;
+            }else{
+                return false;
+            }
+        })->daily();
+
+        $schedule->command('over30:task')->everyFiveMinutes();
     }
 
     /**

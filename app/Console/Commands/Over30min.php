@@ -12,7 +12,7 @@ class Over30min extends Command
      *
      * @var string
      */
-    protected $signature = 'over30:min';
+    protected $signature = 'over30:task';
 
     /**
      * The console command description.

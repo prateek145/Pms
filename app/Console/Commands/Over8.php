@@ -13,7 +13,7 @@ class Over8 extends Command
      *
      * @var string
      */
-    protected $signature = 'over8:command';
+    protected $signature = 'over8:task';
 
     /**
      * The console command description.
