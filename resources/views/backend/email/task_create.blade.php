@@ -9,7 +9,7 @@
                 <h4> Project Name - {{$body['project_name'] ?? ''}}</h4>
                 <p> Task Name - {{$body['name'] ?? ''}}</p>
                 <p> Start time - {{$body['start_time'] ?? ''}}</p>
-                <p> Duration  - {{(strtotime($body['end_time']) - strtotime($body['start_time'])) / 60}}</p>
+                <p> Duration  - {{second_hours(strtotime($body['end_time']) - strtotime($body['start_time'])) ?? 'Contact to Developer'}}</p>
                 <p> Task Description - {!!$body['description'] ?? ''!!}</p>
 
 

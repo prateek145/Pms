@@ -198,6 +198,7 @@ class TaskController extends Controller
                         }
                         $data['file'] = json_encode($imagearr);
                     }
+                    // dd($data,);
                     $task = Task::create($data);
                     // dd($task->task_user->email);
                     // dd($data);
@@ -251,7 +252,6 @@ class TaskController extends Controller
                 $taskloggeds = TimeLagged::where(['task_id' => $task->id])->latest()->get();
                 $count1 = 1;
                 $totalduration = 0;
-               
             } else {
                 # code...
                 $taskfiles = $task->taskfiles()->where('created_by', auth()->user()->id)->latest()->get();
@@ -458,14 +458,21 @@ class TaskController extends Controller
                 // dd($data);
                 unset($data['status']);
                 unset($data['tasklagged_id']);
+                // dd($data);
                 TaskFile::create($data);
+                $task->status = $data['current_status'];
+                $task->save();
 
                 $data['start_time'] = $task->start_time;
                 $data['end_time'] = $task->end_time;
                 $data['name'] = $task->name;
                 $data['description'] = $task->description;
-                send_mail($data, 'message', $task->task_user->email, 'backend.email.task_update', $task->name);
-                send_mail($data, 'message', env("Admin_Mail"), 'backend.email.task_update', $task->name);
+
+                if ($data['current_status'] == 'complete') {
+                    # code...
+                    send_mail($data, 'message', $task->task_user->email, 'backend.email.task_update', $task->name);
+                    send_mail($data, 'message', env("Admin_Mail"), 'backend.email.task_update', $task->name);
+                }
 
                 return redirect()->back()->with('success', 'Successfully Task file Created.');
             }
@@ -528,11 +535,7 @@ class TaskController extends Controller
                 $count = 1;
 
                 return view('backend.tasks.index', compact('tasks', 'count'));
-
             }
-            
-
-
         } catch (\Exception $e) {
             return redirect()
                 ->back()
