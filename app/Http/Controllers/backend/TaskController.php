@@ -200,8 +200,8 @@ class TaskController extends Controller
                     }
 
 
-                    $this->sendNotification('Task Created', $data['name'], $data['allocated_user']);
-                    dd($data);
+                    // $this->sendNotification('Task Created', $data['name'], $data['allocated_user']);
+                    // dd($data);
                     $task = Task::create($data);
                     // dd($task->task_user->email);
                     // dd($data);
