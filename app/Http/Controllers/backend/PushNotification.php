@@ -30,7 +30,7 @@ class PushNotification extends Controller
      */
     public function sendNotification(Request $request)
     {
-        $firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
+        $firebaseToken = User::where('id', auth()->id())->pluck('device_token')->toArray();
 
         $SERVER_API_KEY = 'AAAAcwF20DM:APA91bHtdOJHaTPNZCIdRfDaKUbQCp2KpOAiRRNUPKuI2afgMCevoVNOklMsZ5exc8207fZ81sh71W9xOF6czSv7ihOacaAcCs1_nKGkKiw5NHGefPnDDwoNFYHS9L-71V5G1eOySJGP';
 
