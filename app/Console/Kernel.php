@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
             }else{
                 return false;
             }
-        })->daily();
+        })->everyMinute();
 
         $schedule->command('over8:task')->when(function(){
             $current_time = date('H:i:s');
@@ -36,7 +36,7 @@ class Kernel extends ConsoleKernel
             }else{
                 return false;
             }
-        })->daily();
+        })->everyMinute();
 
         $schedule->command('over30:task')->everyFiveMinutes();
     }
