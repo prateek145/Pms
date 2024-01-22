@@ -19,6 +19,7 @@ class PushNotification extends Controller
      */
     public function saveToken(Request $request)
     {
+        // dd($request->all());
         auth()->user()->update(['device_token'=>$request->token]);
         return response()->json(['token saved successfully.']);
     }
@@ -64,7 +65,7 @@ class PushNotification extends Controller
 
         $response = curl_exec($ch);
 
-        dd($response);
+        // dd($response);
     }
 
 }

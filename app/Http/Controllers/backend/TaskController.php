@@ -198,7 +198,10 @@ class TaskController extends Controller
                         }
                         $data['file'] = json_encode($imagearr);
                     }
-                    // dd($data,);
+
+
+                    $this->sendNotification('Task Created', $data['name'], $data['allocated_user']);
+                    dd($data);
                     $task = Task::create($data);
                     // dd($task->task_user->email);
                     // dd($data);
@@ -547,4 +550,48 @@ class TaskController extends Controller
     {
         dd($request->all());
     }
+
+    public function sendNotification($title, $body, $id)
+    {
+        $firebaseToken = User::where('id', $id)->pluck('device_token')->toArray();
+
+        
+        // dd($firebaseToken);
+        $SERVER_API_KEY = 'AAAAcwF20DM:APA91bHtdOJHaTPNZCIdRfDaKUbQCp2KpOAiRRNUPKuI2afgMCevoVNOklMsZ5exc8207fZ81sh71W9xOF6czSv7ihOacaAcCs1_nKGkKiw5NHGefPnDDwoNFYHS9L-71V5G1eOySJGP';
+
+        $data = [
+            "registration_ids" => $firebaseToken,
+            "notification" => [
+                "title" => $title,
+                "body" => $body,
+                "content_available" => true,
+                "priority" => "high",
+                // 'click_action' => 'https://github.com/suhasrkms/push-notification',
+            ]
+        ];
+        // dd($data);
+        $dataString = json_encode($data);
+
+        $headers = [
+            'Authorization: key=' . $SERVER_API_KEY,
+            'Content-Type: application/json',
+        ];
+
+        // dd($headers);
+
+        $ch = curl_init();
+
+        // dd($headers, $dataString);
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+
+        $response = curl_exec($ch);
+
+        dd($response);
+    }
+
 }
