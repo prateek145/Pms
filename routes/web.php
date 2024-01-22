@@ -5,6 +5,7 @@ use App\Http\Controllers\backend\ClientController;
 use App\Http\Controllers\backend\DepartmentController;
 use App\Http\Controllers\backend\NotificationSendController;
 use App\Http\Controllers\backend\ProjectController;
+use App\Http\Controllers\backend\PushNotification;
 use App\Http\Controllers\backend\TaskController;
 use App\Http\Controllers\backend\TimeLaggedController;
 use App\Http\Controllers\backend\TimeSheetController;
@@ -53,9 +54,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('timelagged', TimeLaggedController::class);
     Route::post('check/timelagged', [TimeLaggedController::class, 'check_timelagged'])->name('check.timelagged');
 
-    Route::get('notification', [NotificationSendController::class, 'notification'])->name('notification');
-    Route::post('/store-token', [NotificationSendController::class, 'updateDeviceToken'])->name('store.token');
-    Route::post('/send-web-notification', [NotificationSendController::class, 'sendNotification'])->name('send.web-notification');
+    Route::get('/push/notification', [PushNotification::class, 'index'])->name('push.notification.home');
+    Route::post('/save-token', [PushNotification::class, 'saveToken'])->name('save-token');
+    Route::post('/send-notification', [PushNotification::class, 'sendNotification'])->name('send.notification');
 
     Route::get('send-email', function(){
         $data['email'] = 'prateekk898@gmail.com';
