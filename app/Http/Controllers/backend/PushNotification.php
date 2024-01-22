@@ -65,7 +65,7 @@ class PushNotification extends Controller
 
         $response = curl_exec($ch);
 
-        // dd($response);
+        dd($response);
     }
 
 }
