@@ -11,8 +11,12 @@ use App\Http\Controllers\backend\TimeLaggedController;
 use App\Http\Controllers\backend\TimeSheetController;
 use App\Http\Controllers\backend\UserController;
 use App\Http\Controllers\HomeController;
+use App\Models\PushSubscription;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Minishlink\WebPush\Subscription;
+use Minishlink\WebPush\WebPush;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,14 +58,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('timelagged', TimeLaggedController::class);
     Route::post('check/timelagged', [TimeLaggedController::class, 'check_timelagged'])->name('check.timelagged');
 
-    Route::get('/push/notification', [PushNotification::class, 'index'])->name('push.notification.home');
-    Route::post('/save-token', [PushNotification::class, 'saveToken'])->name('save-token');
+    Route::get('/push', [PushNotification::class, 'index'])->name('push.notification.home');
+    // Route::post('/save-token', [PushNotification::class, 'saveToken'])->name('save-token');
     Route::post('/send-notification', [PushNotification::class, 'sendNotification'])->name('send.notification');
 
-    Route::get('send-email', function(){
-        $data['email'] = 'prateekk898@gmail.com';
-        $iii = dispatch(new App\Jobs\SendEmailJob($data));
-        dd($iii);
-        dd('mail send successfully');
-    });
+    // Route::get('send-email', function () {
+    //     $data['email'] = 'prateekk898@gmail.com';
+    //     $iii = dispatch(new App\Jobs\SendEmailJob($data));
+    //     dd($iii);
+    //     dd('mail send successfully');
+    // });
+
+
+    //push notification
+    Route::post("admin/sendNotif", [PushNotification::class, 'SendNotification'])->name('admin.send_notifications');
+    Route::post("push-subscribe", [PushNotification::class, 'CreateSubscription'])->name('push.subscribe');
 });

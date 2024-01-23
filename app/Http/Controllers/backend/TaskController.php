@@ -8,10 +8,12 @@ use App\Models\backend\Project;
 use App\Models\backend\Task;
 use App\Models\backend\TaskFile;
 use App\Models\backend\TimeLagged;
+use App\Models\PushSubscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-
+use Minishlink\WebPush\Subscription;
+use Minishlink\WebPush\WebPush;
 
 class TaskController extends Controller
 {
@@ -203,6 +205,11 @@ class TaskController extends Controller
                     // $this->sendNotification('Task Created', $data['name'], $data['allocated_user']);
                     // dd($data);
                     $task = Task::create($data);
+
+                    if (auth()->user()->role == 'admin') {
+                        # code...
+                        $this->SendNotification('Task Created Success', $task->name, route('tasks.edit', $task->id), $task->allocated_user);
+                    }
                     // dd($task->task_user->email);
                     // dd($data);
                     $data['user_name'] = $task->task_user->name;
@@ -546,52 +553,33 @@ class TaskController extends Controller
         }
     }
 
-    public function check_availablity(Request $request)
-    {
-        dd($request->all());
-    }
+    public function SendNotification($title, $body, $url, $user_id) {
 
-    public function sendNotification($title, $body, $id)
-    {
-        $firebaseToken = User::where('id', $id)->pluck('device_token')->toArray();
-
-        
-        // dd($firebaseToken);
-        $SERVER_API_KEY = 'AAAAcwF20DM:APA91bHtdOJHaTPNZCIdRfDaKUbQCp2KpOAiRRNUPKuI2afgMCevoVNOklMsZ5exc8207fZ81sh71W9xOF6czSv7ihOacaAcCs1_nKGkKiw5NHGefPnDDwoNFYHS9L-71V5G1eOySJGP';
-
-        $data = [
-            "registration_ids" => $firebaseToken,
-            "notification" => [
-                "title" => $title,
-                "body" => $body,
-                "content_available" => true,
-                "priority" => "high",
-                // 'click_action' => 'https://github.com/suhasrkms/push-notification',
+        $webPush = new WebPush([
+            "VAPID" => [
+                "publicKey" => "BH_3PDMod9Me70Zz27uSCNapPS2HNMsa3zjMiAk9IZUUK20AHrQF3G-R7Ktkq_DTInnGc6X0qT-MBGSoBdQHXJM",
+                "privateKey" => "450tJbM2jNtlVrKUeWXJRCsLWdDbOZasYAD8PeiMvKQ",
+                "subject" => $url ?? ""
             ]
+        ]);
+
+        $array = [
+            'title' => $title,
+            'body' => $body,
+            'url' => $url
         ];
-        // dd($data);
-        $dataString = json_encode($data);
 
-        $headers = [
-            'Authorization: key=' . $SERVER_API_KEY,
-            'Content-Type: application/json',
-        ];
-
-        // dd($headers);
-
-        $ch = curl_init();
-
-        // dd($headers, $dataString);
-        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-
-        $response = curl_exec($ch);
-
-        dd($response);
+        $subs = PushSubscription::where('user_id', $user_id)->first();
+        if ($subs) {
+            # code...
+            $result = $webPush->sendOneNotification(
+                Subscription::create(json_decode($subs->data, true)),
+                json_encode($array)
+            );
+        }
+        // dd($result);
     }
+
+
 
 }

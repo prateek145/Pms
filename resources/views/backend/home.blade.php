@@ -12,11 +12,10 @@
             </nav>
         </div><!-- End Page Title -->
 
-        <button id="btn-nft-enable" onclick="initFirebaseMessagingRegistration()" class="btn btn-danger btn-xs btn-flat">Allow
-            for Push Notification</button>
-
         <div id="layoutSidenav_content">
             <main>
+                <button onclick="requestPermission()" class="btn btn-primary">Enable Notification</button>
+
                 <div class="calendar">
                     <div class="d-flex justify-content-between m-4">
                         {{-- {{ dd($current_date['formatted']) }} --}}
@@ -53,69 +52,57 @@
         </div>
 
     </main><!-- End #main -->
-    <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase.js"></script>
-    {{-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> --}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyC7OvrvvaUKmTckNBNfh8SoA1OD7B4agwo",
-            authDomain: "push-notification-e1ce0.firebaseapp.com",
-            projectId: "push-notification-e1ce0",
-            storageBucket: "push-notification-e1ce0.appspot.com",
-            messagingSenderId: "493945802803",
-            appId: "1:493945802803:web:998a2935da39c928509346",
-            measurementId: "G-DWZBJXGKR8"
+        // console.log(navigator.serviceWorker.register("sw.js"));
+        navigator.serviceWorker.register("sw.js");
 
-        };
+        function requestPermission() {
+            // console.log('working');
+            Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
 
-        firebase.initializeApp(firebaseConfig);
-        const messaging = firebase.messaging();
+                    // console.log(permission);
+                    // get service worker
+                    navigator.serviceWorker.ready.then((sw) => {
 
-        function initFirebaseMessagingRegistration() {
-            messaging
-                .requestPermission()
-                .then(function() {
-                    return messaging.getToken()
-                })
-                .then(function(token) {
-                    console.log(token);
+                        // subscribe
+                        sw.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: "BH_3PDMod9Me70Zz27uSCNapPS2HNMsa3zjMiAk9IZUUK20AHrQF3G-R7Ktkq_DTInnGc6X0qT-MBGSoBdQHXJM"
+                        }).then((subscription) => {
 
-                    // $.ajaxSetup({
-                    //     headers: {
-                    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    //     }
-                    // });
+                            $.ajax({
+                                url: "{{ route('push.subscribe') }}",
+                                method: "POST",
+                                data: {
+                                    '_token': "{{ csrf_token() }}",
+                                    "subscription": JSON.stringify(subscription),
+                                    "user_id": {{ auth()->id() }}
+                                },
+                                success: function(response) {
+                                    // console.log(response.status);
+                                    if (response.status == 200) {
+                                        alert('Token Successfully Created.');
+                                    }
 
-                    $.ajax({
-                        url: '{{ route('save-token') }}',
-                        type: 'POST',
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            token: token
-                            
-                        },
-                        dataType: 'JSON',
-                        success: function(response) {
-                            alert('Token saved successfully.');
-                        },
-                        error: function(err) {
-                            console.log('User Chat Token Error' + err);
-                        },
+                                }
+                            });
+                            // console.log(, 'prateek');
+                            // // subscription successful
+                            // fetch("push-subscribe", {
+                            //     method: "post",
+                            //     body: JSON.stringify(subscription),
+
+                            // }).then(alert("ok"));
+                        });
                     });
+                }
+            });
 
-                }).catch(function(err) {
-                    console.log('User Chat Token Error' + err);
-                });
+            // Notification.requestPermission().then(function(permission) {
+            //     console.log('permiss', permission)
+            // });
         }
-
-        messaging.onMessage(function(payload) {
-            const noteTitle = payload.notification.title;
-            const noteOptions = {
-                body: payload.notification.body,
-                icon: payload.notification.icon,
-            };
-            console.log(noteTitle, noteOptions);
-            new Notification(noteTitle, noteOptions);
-        });
     </script>
 @endsection
