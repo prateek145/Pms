@@ -33,8 +33,10 @@ class Everyday10_10 extends Command
         $users_task = array_unique(Task::where('start_date', date('Y-m-d'))->pluck('created_by')->toArray());
         $users_mail = array_diff($users, $users_task);
         $mail_users = User::whereIn('id', $users_mail)->get();
-        // dd(count($mail_users));
-        if (count($mail_users) > 0) {
+        $current_time = date('H:i');
+
+        // dd($current_time == '15:33');
+        if (count($mail_users) > 0 && $current_time == '10:10') {
             # code...
             foreach ($mail_users as $key => $value) {
                 # code...

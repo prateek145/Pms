@@ -32,7 +32,9 @@ class Over8 extends Command
         // dd();
         $users = TimeLagged::whereDate('created_at', date('Y-m-d'))->where('end_time', null)->pluck('created_by');
         // dd($users);
-        if (count($users) > 0) {
+        $current_time = date('H:i');
+
+        if (count($users) > 0 && $current_time == '20:00') {
             # code...
             foreach ($users as $key => $value) {
                 # code...

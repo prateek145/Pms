@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('10am:task')->everyMinute();
         $schedule->command('over8:task')->everyMinute();
         $schedule->command('push:notification')->everyMinute();
-        $schedule->command('over30:task')->everyFiveMinutes();
+        $schedule->command('over30:task')->everyMinute();
     }
 
     /**

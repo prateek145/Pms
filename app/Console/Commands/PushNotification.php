@@ -35,13 +35,17 @@ class PushNotification extends Command
         // dd($tasks);
         foreach ($tasks as $key => $value) {
             # code...
+            // dd($value->tasklagged_one);
             date_default_timezone_set('Asia/Kolkata');
             $time = strtotime($value->end_time);
-            $current_time = date('H:i:s');
-            $end_time = date("H:i:s", strtotime($time));
+            $current_time = date('H:i');
+            $end_time = date("H:i", strtotime($time));
+            // dd($current_time > $end_time, $value->tasklagged_one->end_time == '');
+
             $user = $value->task_user;
 
             // dd($end_time, $current_time, $current_time > $end_time, $value->tasklagged_one->end_time == '', $user);
+          
             if ($current_time > $end_time && $value->tasklagged_one->end_time == '') {
                 # code...
                 $this->SendNotification('Task Time Completed', $value->name, route('tasks.edit', $value->id), $value->allocated_user);
@@ -68,6 +72,7 @@ class PushNotification extends Command
         ];
 
         $subs = PushSubscription::where('user_id', $user_id)->first();
+        // dd($subs, $user_id);
         if ($subs) {
             # code...
             $result = $webPush->sendOneNotification(

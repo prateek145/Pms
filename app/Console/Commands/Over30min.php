@@ -34,8 +34,9 @@ class Over30min extends Command
             # code...
             date_default_timezone_set('Asia/Kolkata');
             $time = strtotime($value->end_time);
-            $current_time = date('H:i:s');
-            $end_time = date("H:i:s", strtotime('+30 minutes', $time));
+            $current_time = date('H:i');
+            $end_time = date("H:i", strtotime('+30 minutes', $time));
+            // dd($current_time > $end_time, $value->tasklagged_one->end_time == '');
             $user = $value->task_user;
 
             // dd($end_time, $current_time, $current_time > $end_time, $value->tasklagged_one->end_time == '', $user);

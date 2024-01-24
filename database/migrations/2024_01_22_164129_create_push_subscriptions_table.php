@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('push_subscriptions', function (Blueprint $table) {
             $table->id();
             $table->text('data');
+            $table->tinyInteger('user_id');
             $table->timestamps();
         });
     }
