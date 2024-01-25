@@ -708,7 +708,7 @@
                     "task_id": id
                 },
                 success: function(response) {
-                    // console.log(response);
+                    console.log(response);
                     if (response.result == 'success') {
                         document.getElementsByClassName('start_btn')[0].style.display = 'none';
                         document.getElementsByClassName('stop_btn')[0].style.display = 'block';
