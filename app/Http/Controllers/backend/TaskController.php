@@ -105,13 +105,16 @@ class TaskController extends Controller
                     if ($request->start_time && $request->start_time) {
                         # code...
                         $taskTodo->whereTime('start_time', '<=', $request->start_time);
-
                         $taskTodo->whereTime('end_time', '>', $request->start_time);
+                        $taskTodo->where('status', '!==', 'cancel');
+
                         if (count($taskTodo->get()) > 0) {
                             $found = true;
                         }
                         $taskTodo->whereTime('start_time', '<=', $request->end_time);
                         $taskTodo->whereTime('end_time', '>', $request->end_time);
+                        $taskTodo->where('status', '!==', 'cancel');
+
                         if (count($taskTodo->get()) > 0) {
                             $found = true;
                         }
@@ -569,7 +572,7 @@ class TaskController extends Controller
             'url' => $url
         ];
 
-        $subs = PushSubscription::where('user_id', $user_id)->first();
+        $subs = PushSubscription::where('user_id', $user_id)->latest()->first();
         if ($subs) {
             # code...
             $result = $webPush->sendOneNotification(

@@ -84,7 +84,7 @@
                                             <select class="form-control form-select @error('status') is-invalid @enderror"
                                                 name="status">
                                                 <option value="cancel" {{ $task->status == 'cancel' ? 'selected' : '' }}>
-                                                    Canccel
+                                                    Cancel
                                                 </option>
                                                 <option value="confirm" {{ $task->status == 'confirm' ? 'selected' : '' }}>
                                                     Confirm
@@ -347,7 +347,7 @@
                                         <select class="form-control form-select @error('status') is-invalid @enderror"
                                             name="status" disabled>
                                             <option value="cancel" {{ $task->status == 'cancel' ? 'selected' : '' }}>
-                                                Canccel
+                                                Cancel
                                             </option>
                                             <option value="confirm" {{ $task->status == 'confirm' ? 'selected' : '' }}>
                                                 Confirm
