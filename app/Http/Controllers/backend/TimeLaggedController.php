@@ -38,7 +38,7 @@ class TimeLaggedController extends Controller
     {
         try {
             $data = $request->all();
-            dd($data);
+            // dd($data);
             unset($data['_token']);
             $data['created_by'] = auth()->id();
             $data['start_time'] = date('Y-m-d H:i:s');
