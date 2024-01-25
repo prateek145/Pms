@@ -243,6 +243,11 @@
                                     <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="editor1"
                                         cols="30" rows="5">{{ old('description') ?? '' }}</textarea>
 
+                                    @error('description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 @error('description')
                                     <span class="invalid-feedback" role="alert">
@@ -291,7 +296,7 @@
                                             }
                                             // dd($total_time);
                                         @endphp
-                                        <td>{{second_hours($total_time)}}</td>
+                                        <td>{{ second_hours($total_time) }}</td>
                                         <td>{{ $item->task_project->name ?? '' }}</td>
                                         <td>{{ $item->task_user->name ?? '' }}</td>
                                         <td>{{ $item->status }}</td>

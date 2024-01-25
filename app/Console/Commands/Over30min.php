@@ -28,7 +28,7 @@ class Over30min extends Command
      */
     public function handle()
     {
-        $tasks = Task::whereDate('created_at', date('Y-m-d'))->get();
+        $tasks = Task::whereDate('created_at', date('Y-m-d'))->whereNot('status', 'cancel')->get();
         // dd($tasks);
         foreach ($tasks as $key => $value) {
             # code...

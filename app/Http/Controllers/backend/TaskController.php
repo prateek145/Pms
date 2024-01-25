@@ -106,14 +106,14 @@ class TaskController extends Controller
                         # code...
                         $taskTodo->whereTime('start_time', '<=', $request->start_time);
                         $taskTodo->whereTime('end_time', '>', $request->start_time);
-                        $taskTodo->where('status', '!==', 'cancel');
+                        
 
                         if (count($taskTodo->get()) > 0) {
                             $found = true;
                         }
                         $taskTodo->whereTime('start_time', '<=', $request->end_time);
                         $taskTodo->whereTime('end_time', '>', $request->end_time);
-                        $taskTodo->where('status', '!==', 'cancel');
+                        
 
                         if (count($taskTodo->get()) > 0) {
                             $found = true;
@@ -171,21 +171,26 @@ class TaskController extends Controller
                 $taskTodo->orderBy('id', 'desc');
                 $taskTodo->where('allocated_user', $request->allocated_user);
                 $taskTodo->where('start_date', $request->start_date);
+                
 
                 $found = false;
                 if ($request->start_time && $request->start_time) {
                     $taskTodo->whereTime('start_time', '<=', $request->start_time);
                     $taskTodo->whereTime('end_time', '>', $request->start_time);
+                    $taskTodo->whereNot('status', 'cancel');
+                    // dd($taskTodo->get(), 'prateek');
                     if (count($taskTodo->get()) > 0) {
                         $found = true;
                     }
                     $taskTodo->whereTime('start_time', '<=', $request->end_time);
                     $taskTodo->whereTime('end_time', '>', $request->end_time);
+                    // $taskTodo->where('status', 'cancel');
                     if (count($taskTodo->get()) > 0) {
                         $found = true;
                     }
                 }
 
+                // dd($found, $taskTodo->get());
                 if ($found === true) {
                     # code...
                     throw new \Exception("User Already Working on Task At Same Time and Date");

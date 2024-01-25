@@ -56,18 +56,19 @@ class TimeSheetController extends Controller
             $interval = \DateInterval::createFromDateString('1 day');
             $daterange = new \DatePeriod(date_create($request->start_date), $interval, $end_date);
             $daterange_array = [];
-            foreach($daterange as $date1){
+            foreach ($daterange as $date1) {
                 array_push($daterange_array, $date1->format('Y-m-d'));
             }
             //task 
             // $tasks = Task::where('allocated_user', $request->user_id)->whereBetween('created_at', [$request->start_date, date('y-m-d', strtotime("+30 days", $start_date))])->get();
             $assign_task_time = [];
             $time_taken = [];
-            
-            foreach($daterange_array as $key => $value){
+
+            foreach ($daterange_array as $key => $value) {
                 $value = $value;
                 $queryTodo = Task::query();
                 $queryTodo->where('allocated_user', $request->user_id);
+                $queryTodo->whereNot('status', 'cancel');
                 // $queryTodo->where('schedule', 'recurring')->orWhere('schedule', 'one_time');
                 $queryTodo->where('start_date', $value)->orWhere('dates', $value);
                 // dd($queryTodo->get(), $value);
@@ -83,18 +84,15 @@ class TimeSheetController extends Controller
                             $time_taken1 += $value2->duration;
                             // dd($value2->duration);
                         }
-                        
                     }
                     // dd($assign_task_time1, $time_taken1);
-                    array_push($assign_task_time,gmdate("H.i", $assign_task_time1));
+                    array_push($assign_task_time, gmdate("H.i", $assign_task_time1));
                     array_push($time_taken, gmdate("H.i", $time_taken1));
                 } else {
                     // dd($task, 'kmr');
                     array_push($assign_task_time, 0);
                     array_push($time_taken, 0);
                 }
-                
-                
             }
             $selected_user = $request->user_id;
             $selected_date = $request->start_date;

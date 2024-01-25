@@ -52,6 +52,7 @@ class AvailablityController extends Controller
             $users = User::where('role', '!=', 'admin')->get();
             $queryTodo = Task::query();
             $queryTodo->where('allocated_user', $request->user_id);
+            $queryTodo->whereNot('status', 'cancel');
             $queryTodo->where('start_date', $request->date)->orwhereJsonContains('dates', $request->date);
 
 
