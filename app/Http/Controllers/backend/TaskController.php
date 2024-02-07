@@ -540,7 +540,7 @@ class TaskController extends Controller
                 $taskTodo->where('start_date', $date);
                 $taskTodo->orwhereJsonContains('dates', $date);
 
-                $tasks = $taskTodo->get();
+                $tasks = $taskTodo->latest()->get();
                 $count = 1;
                 return view('backend.tasks.index', compact('tasks', 'count'));
             } else {
@@ -549,7 +549,7 @@ class TaskController extends Controller
                 $taskTodo->where('allocated_user', auth()->id());
                 $taskTodo->where('start_date', $date);
                 $taskTodo->orwhereJsonContains('dates', $date);
-                $tasks = $taskTodo->get();
+                $tasks = $taskTodo->latest()->get();
                 $count = 1;
 
                 return view('backend.tasks.index', compact('tasks', 'count'));
