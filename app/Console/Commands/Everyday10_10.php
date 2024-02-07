@@ -36,7 +36,7 @@ class Everyday10_10 extends Command
         $current_time = date('H:i');
 
         // dd($current_time == '12:34', $current_time, $mail_users);
-        if (count($mail_users) > 0 && $current_time == '13:01') {
+        if (count($mail_users) > 0 && $current_time == '10:10') {
             # code...
             foreach ($mail_users as $key => $value) {
                 # code...
