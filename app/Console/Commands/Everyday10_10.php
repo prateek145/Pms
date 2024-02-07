@@ -35,11 +35,12 @@ class Everyday10_10 extends Command
         $mail_users = User::whereIn('id', $users_mail)->get();
         $current_time = date('H:i');
 
-        // dd($current_time == '15:33');
-        if (count($mail_users) > 0 && $current_time == '10:10') {
+        // dd($current_time == '12:34', $current_time, $mail_users);
+        if (count($mail_users) > 0 && $current_time == '13:01') {
             # code...
             foreach ($mail_users as $key => $value) {
                 # code...
+                // dd($mail_users);
                 send_mail($value, 'message', $value->email, 'backend.email.after10_10', 'No tasks for today?');
             }
             send_mail($mail_users, 'message', env("Admin_Mail"), 'backend.email.after10_10admin', 'Users with no tasks today');

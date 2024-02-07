@@ -20,6 +20,8 @@ function send_mail($data, $message = null, $email, $template, $subject = 'Projec
         $message->subject($subject);
         $message->to($email);
     });
+    // dd($mail);
 
+    
     return $mail;
 }

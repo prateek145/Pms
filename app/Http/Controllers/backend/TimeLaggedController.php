@@ -42,7 +42,9 @@ class TimeLaggedController extends Controller
             unset($data['_token']);
             $data['created_by'] = auth()->id();
             $data['start_time'] = date('Y-m-d H:i:s');
+            // dd($data);
             $tasklagged = TimeLagged::create($data);
+            // dd($tasklagged);
             // $task = TimeLagged::find($tasklagged->task_id);
             // $data['task_name'] = $task->name;
             // dd($task);
@@ -52,7 +54,7 @@ class TimeLaggedController extends Controller
             return response()->json(['result'=>'success', 'tasklagged_id' => $tasklagged->id]);
 
         } catch (\Exception $e) {
-            return redirect()->json(['result'=>$e->getMessage()]);
+            return response()->json(['result'=>$e->getMessage()]);
 
         }
     }
